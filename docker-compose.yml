@@ -1,0 +1,12 @@
+version: "1"
+services:
+    webserver:
+        build: ./docker/php/
+        ports:
+            - "0.0.0.0:${APP_PORT}:80"
+        volumes:
+            - .:/var/www/html
+            - /var/www/html/vendor
+        command: sh -c "composer install && apachectl -D FOREGROUND"
+        restart: always
+
