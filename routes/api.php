@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Test\TestController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
 Route::get('/', [TestController::class, 'test']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// fallback은 라우터 가장 하단에 있어야 한다.
+Route::fallback(function () {
+    return response()->json("등록되지 않은 URL입니다.");
 });
