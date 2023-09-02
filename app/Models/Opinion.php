@@ -20,4 +20,9 @@ class Opinion extends Model
     {
         return $this->belongsTo(Topic::class);
     }
+
+    public function reference(): BelongsTo
+    {
+        return $this->belongsTo(OpinionReference::class, 'reference_id');
+    }
 }
