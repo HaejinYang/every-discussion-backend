@@ -22,7 +22,6 @@ class OpinionFactory extends Factory
         return [
             'topic_id' => Topic::all()->random(),
             'user_id' => User::all()->random(),
-            'reference_id' => fake()->numberBetween(0, 100),
             'title' => fake()->paragraph(1),
             'agree_type' => fake()->randomElement(['agree', 'disagree']),
             'like' => fake()->randomDigit(),
