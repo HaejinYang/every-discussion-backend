@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->bigInteger('topic_id')->unsigned();
 
             $table->index('participant_id');
-            $table - index('topic_id');
+            $table->index('topic_id');
 
         });
     }

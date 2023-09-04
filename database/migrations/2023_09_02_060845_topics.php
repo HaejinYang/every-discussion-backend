@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->string('title');
-            $table->timestamp();
+            $table->timestamps();
             $table->softDeletes();
 
             $table->index('user_id');

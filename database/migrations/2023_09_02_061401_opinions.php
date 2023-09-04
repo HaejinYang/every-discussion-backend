@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('agree_type');
             $table->integer('like');
             $table->integer('dislike');
-            $table->timestamp();
+            $table->timestamps();
             $table->softDeletes();
 
             $table->index('topic_id');
