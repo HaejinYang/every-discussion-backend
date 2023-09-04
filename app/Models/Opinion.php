@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Opinion extends Model
@@ -21,8 +22,8 @@ class Opinion extends Model
         return $this->belongsTo(Topic::class);
     }
 
-    public function reference(): BelongsTo
+    public function reference(): HasOne
     {
-        return $this->belongsTo(OpinionReference::class, 'reference_id');
+        return $this->hasOne(OpinionReference::class, 'reference_id');
     }
 }

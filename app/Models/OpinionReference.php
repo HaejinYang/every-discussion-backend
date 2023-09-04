@@ -4,16 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OpinionReference extends Model
 {
     use HasFactory;
 
     protected $table = 'opinions_reference';
+    public $timestamps = false;
 
-    public function opinion(): HasOne
+    public function opinion(): BelongsTo
     {
-        return $this->hasOne(Opinion::class, 'opinion_id');
+        return $this->belongsTo(Opinion::class, 'opinion_id');
     }
 }

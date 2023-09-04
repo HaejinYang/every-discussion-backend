@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->bigInteger('topic_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('reference_id')->unsigned();
             $table->string('title');
             $table->string('agree_type');
             $table->integer('like');
@@ -23,6 +24,7 @@ return new class extends Migration {
 
             $table->index('topic_id');
             $table->index('user_id');
+            $table->index('reference_id');
         });
     }
 
