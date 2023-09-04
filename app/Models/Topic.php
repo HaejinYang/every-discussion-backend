@@ -13,6 +13,8 @@ class Topic extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $appends = ['participants_count', 'opinions_count', 'host'];
+
     public function host(): BelongsTo
     {
         return $this->belongsTo(Host::class, 'user_id', 'id');
@@ -28,5 +30,18 @@ class Topic extends Model
         return $this->hasMany(Opinion::class);
     }
 
+    public function getParticipantsCountAttribute()
+    {
+        return $this->participants()->count();
+    }
 
+    public function getOpinionsCountAttribute()
+    {
+        return $this->opinions()->count();
+    }
+
+    public function getHostAttribute()
+    {
+        return $this->host()->get()->value('name');
+    }
 }
