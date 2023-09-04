@@ -13,11 +13,11 @@ return new class extends Migration {
         Schema::create('opinions_reference', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('opinion_id')->unsigned();
-            $table->bigInteger('reference_id')->unsigned();
+            $table->bigInteger('refer_to_id')->unsigned();
             $table->string('agree_type');
 
             $table->index('opinion_id');
-            $table->index('reference_id');
+            $table->index('refer_to_id');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('opinions_reference');
     }
 };
