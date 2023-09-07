@@ -30,17 +30,20 @@ class Topic extends Model
         return $this->hasMany(Opinion::class);
     }
 
-    public function getParticipantsCountAttribute()
+    /*
+     * $appends 배열의 내용을 key로 하고 아래 함수에서 리턴하는 값을 value로 모델에 프로퍼티가 추가된다.
+     */
+    public function getParticipantsCountAttribute(): int
     {
         return $this->participants()->count();
     }
 
-    public function getOpinionsCountAttribute()
+    public function getOpinionsCountAttribute(): int
     {
         return $this->opinions()->count();
     }
 
-    public function getHostAttribute()
+    public function getHostAttribute(): string
     {
         return $this->host()->get()->value('name');
     }
