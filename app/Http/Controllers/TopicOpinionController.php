@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Topic;
+use App\Services\Topic\TopicService;
 use Illuminate\Http\Request;
 
 class TopicOpinionController extends ApiController
@@ -12,8 +13,8 @@ class TopicOpinionController extends ApiController
      */
     public function __invoke(Request $request, Topic $topic)
     {
-        $opinions = $topic->opinions()->get();
+        $topicService = new TopicService($topic);
 
-        return $this->showAll($opinions);
+        return $this->showAll($topicService->opinions());
     }
 }
