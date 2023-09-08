@@ -42,7 +42,7 @@ class TopicController extends ApiController
      */
     public function show(Topic $topic)
     {
-        return $topic;
+        return $this->showOne($topic);
     }
 
     /**
