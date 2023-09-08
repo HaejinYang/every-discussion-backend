@@ -28,4 +28,9 @@ class TopicService
     {
         return $this->topic->opinions()->where('agree_type', 'disagree')->get();
     }
+
+    public function searchOpinions(string $keyword): Collection
+    {
+        return $this->topic->opinions()->whereFullText('title', $keyword . "*", ['mode' => 'boolean'])->orderBy('like', 'desc')->get();
+    }
 }

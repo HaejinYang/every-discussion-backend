@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Test\TestController;
 use App\Http\Controllers\Topic\TopicController;
-use App\Http\Controllers\TopicOpinionController;
+use App\Http\Controllers\Topic\TopicOpinionController;
 use Illuminate\Support\Facades\Route;
 
 /*
