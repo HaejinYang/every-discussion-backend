@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Opinion\OpinionController;
 use App\Http\Controllers\Test\TestController;
 use App\Http\Controllers\Topic\TopicController;
 use App\Http\Controllers\Topic\TopicOpinionController;
@@ -25,7 +26,7 @@ Route::get('/', [TestController::class, 'test']);
 // api
 Route::apiResource('topics', TopicController::class)->only('index', 'show');
 Route::get('topics/{topic}/opinions', TopicOpinionController::class);
-
+Route::apiResource('opinions', OpinionController::class)->only('store');
 
 // fallback은 라우터 가장 하단에 있어야 한다.
 Route::fallback(function () {

@@ -12,6 +12,8 @@ class Opinion extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['topic_id', 'user_id', 'title', 'content', 'agree_type'];
+
     public function participant(): BelongsTo
     {
         return $this->belongsTo(Participant::class);
