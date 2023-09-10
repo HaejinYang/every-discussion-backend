@@ -17,9 +17,9 @@ return new class extends Migration {
             $table->string('title');
             $table->string('agree_type');
             $table->string('content');
-            $table->string('summary');
-            $table->integer('like');
-            $table->integer('dislike');
+            $table->string('summary')->default("");
+            $table->integer('like')->default(0);
+            $table->integer('dislike')->default(0);
             $table->timestamps();
             $table->softDeletes();
 
