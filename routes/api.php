@@ -26,7 +26,7 @@ Route::get('/', [TestController::class, 'test']);
 // api
 Route::apiResource('topics', TopicController::class)->only('index', 'show');
 Route::get('topics/{topic}/opinions', TopicOpinionController::class);
-Route::apiResource('opinions', OpinionController::class)->only('store');
+Route::apiResource('opinions', OpinionController::class)->only('store', 'show');
 
 // fallback은 라우터 가장 하단에 있어야 한다.
 Route::fallback(function () {

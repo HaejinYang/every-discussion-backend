@@ -18,8 +18,9 @@ class OpinionReferenceFactory extends Factory
      */
     public function definition(): array
     {
-        $opinionId = Opinion::all()->random(1)->value('id');
-        $referToId = Opinion::all()->where('id', '!=', $opinionId)->random(1)->value('id');
+        $opinionId = fake()->unique()->numberBetween(0, 100);
+        $referToId = Opinion::all()->where('id', '!=', $opinionId)->where('id', '<', 10)->random(1)->value('id');
+
 
         return [
             'opinion_id' => $opinionId,
