@@ -15,7 +15,7 @@ class OpinionController extends ApiController
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -39,9 +39,9 @@ class OpinionController extends ApiController
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Opinion $opinion)
     {
-        //
+        return $this->showOne($opinion);
     }
 
     /**

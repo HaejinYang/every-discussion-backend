@@ -13,8 +13,13 @@ class OpinionReference extends Model
     protected $table = 'opinions_reference';
     public $timestamps = false;
 
-    public function opinion(): BelongsTo
+    public function referredOpinion(): BelongsTo
     {
         return $this->belongsTo(Opinion::class, 'opinion_id');
+    }
+
+    public function referToOpinion(): BelongsTo
+    {
+        return $this->belongsTo(Opinion::class, 'refer_to_id');
     }
 }
