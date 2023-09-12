@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Opinion extends Model
 {
@@ -18,12 +19,22 @@ class Opinion extends Model
 
     public function getReferToAttribute()
     {
-        return $this->referTo()->get()->pluck('refer_to_id');
+        $referTo = $this->referTo()->get()->pluck('refer_to_id');
+        if ($referTo->count() < 1) {
+            return null;
+        }
+
+        return DB::table('opinions')->where('id', $referTo)->first();
     }
 
     public function getReferredAttribute()
     {
-        return $this->referred()->get()->pluck('opinion_id');
+        $referred = $this->referred()->get()->pluck('opinion_id');
+        if ($referred->count() < 1) {
+            return [];
+        }
+
+        return DB::table('opinions')->whereIn('id', $referred)->get();
     }
 
     public function participant(): BelongsTo
