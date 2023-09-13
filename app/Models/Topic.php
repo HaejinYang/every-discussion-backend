@@ -14,6 +14,7 @@ class Topic extends Model
     use HasFactory, SoftDeletes;
 
     protected $appends = ['participants_count', 'opinions_count', 'host'];
+    protected $hidden = ['pivot'];
 
     public function host(): BelongsTo
     {

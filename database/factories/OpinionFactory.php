@@ -3,8 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Opinion;
-use App\Models\Topic;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,8 +18,8 @@ class OpinionFactory extends Factory
     public function definition(): array
     {
         return [
-            'topic_id' => Topic::where('id', '<', 10)->get()->random(),
-            'user_id' => User::all()->random(),
+            'topic_id' => null,
+            'user_id' => null,
             'title' => fake()->paragraph(1),
             'content' => fake()->paragraph(1),
             'summary' => fake()->paragraph(1),
