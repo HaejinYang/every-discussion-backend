@@ -16,6 +16,6 @@ class Participant extends User
 
     public function opinions(): HasMany
     {
-        return $this->hasMany(Opinion::class);
+        return $this->hasMany(Opinion::class, 'user_id');
     }
 }
