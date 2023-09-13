@@ -25,12 +25,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(100)->create();
-        Topic::factory(100)->create()->each(function (Topic $topic) {
-            $participant = User::where('id', '<', 10)->inRandomOrder()->first()->id;
-            $topic->participants()->attach($participant);
+        Topic::factory(20)->create()->each(function (Topic $topic) {
+            $participants = User::where('id', '<', 10)->inRandomOrder()->take(10)->get()->pluck('id');
+            $topic->participants()->attach($participants);
 
-            Opinion::factory(1)->create(['topic_id' => $topic->id, 'user_id' => $participant]);
-
+            $participants->map(function (int $id) use ($topic) {
+                Opinion::factory(1)->create(['topic_id' => $topic->id, 'user_id' => $id]);
+            });
         });
 
         OpinionReference::factory(100)->create();
