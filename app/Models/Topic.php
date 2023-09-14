@@ -13,6 +13,7 @@ class Topic extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['title', 'description', 'user_id'];
     protected $appends = ['participants_count', 'opinions_count', 'host'];
     protected $hidden = ['pivot'];
 

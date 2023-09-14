@@ -21,6 +21,7 @@ class TopicFactory extends Factory
         return [
             'user_id' => User::all()->random(),
             'title' => fake()->paragraph(1),
+            'description' => fake()->paragraph(1),
         ];
     }
 }
