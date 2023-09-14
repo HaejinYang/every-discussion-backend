@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [TestController::class, 'test']);
 
 // api
-Route::apiResource('topics', TopicController::class)->only('index', 'show');
+Route::apiResource('topics', TopicController::class)->only('index', 'show', 'store');
 Route::get('topics/{topic}/opinions', TopicOpinionController::class);
 Route::apiResource('opinions', OpinionController::class)->only('store', 'show');
 Route::apiResource('users/{user}/topics/{topic}/opinions', UserTopicOpinionController::class)->only('index');

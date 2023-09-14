@@ -13,7 +13,8 @@ return new class extends Migration {
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
-            $table->string('title');
+            $table->string('title')->default(null);
+            $table->string('description')->default(null);
             $table->timestamps();
             $table->softDeletes();
 

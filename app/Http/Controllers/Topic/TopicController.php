@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Topic;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\Topic\StoreTopicRequest;
 use App\Models\Topic;
 use App\Services\Topic\TopTopicsService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class TopicController extends ApiController
 {
@@ -32,9 +34,11 @@ class TopicController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTopicRequest $request)
     {
-        //
+        $created = Topic::create(array_merge($request->all(), ['user_id' => 1]));
+
+        return $this->showOne($created, Response::HTTP_CREATED);
     }
 
     /**
