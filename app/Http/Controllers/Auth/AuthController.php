@@ -44,6 +44,10 @@ class AuthController extends ApiController
     public function logout()
     {
         $user = auth('sanctum')->user();
+        if (is_null($user)) {
+            return $this->showMessage('로그아웃할 수 없습니다.', Response::HTTP_UNAUTHORIZED);
+        }
+
         $user->currentAccessToken()->delete();
         $user['token'] = null;
 
