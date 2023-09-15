@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Opinion\OpinionController;
-use App\Http\Controllers\Test\TestController;
 use App\Http\Controllers\Topic\TopicController;
 use App\Http\Controllers\Topic\TopicOpinionController;
 use App\Http\Controllers\User\UserTopicController;
@@ -23,7 +23,12 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::get('/', [TestController::class, 'test']);
+// auth
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::get('/auth/login', [AuthController::class, 'login']);
+Route::get('/auth/logout', [AuthController::class, 'logout']);
+Route::get('/auth/delete', [AuthController::class, 'delete']);
+
 
 // api
 Route::apiResource('topics', TopicController::class)->only('index', 'show', 'store');
