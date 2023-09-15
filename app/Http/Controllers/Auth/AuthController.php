@@ -37,19 +37,36 @@ class AuthController extends ApiController
 
         $user = User::where('email', $data['email'])->first();
         $user['token'] = $user->createToken('access_token')->plainTextToken;
-        
+
         return $this->showOne($user);
     }
 
     public function logout()
     {
+        $user = auth('sanctum')->user();
+        if (is_null($user)) {
+            return $this->showMessage('로그아웃할 수 없습니다.', Response::HTTP_UNAUTHORIZED);
+        }
 
+        $user->currentAccessToken()->delete();
+        $user['token'] = null;
+
+        return $this->showOne($user);
     }
 
     public function delete()
     {
-        // 탈퇴를 진행하려면 로그인 한지 확인을 해야하네
+        if (!auth('sanctum')->check()) {
+            return $this->error('계정을 삭제할 수 없습니다.', Response::HTTP_UNAUTHORIZED);
+        }
+
+        $user = auth('sanctum')->user();
+        if (is_null($user)) {
+            return $this->error('계정을 삭제할 수 없습니다.', Response::HTTP_UNAUTHORIZED);
+        }
+
+        $user->delete();
+
+        return $this->showMessage('계정을 삭제하였습니다.');
     }
-
-
 }
