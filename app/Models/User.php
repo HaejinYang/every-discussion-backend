@@ -10,6 +10,9 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    /**
+     * HasApiTokens : 생텀을 통한 인증에 필요하다.
+     */
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -42,5 +45,5 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    
+
 }
