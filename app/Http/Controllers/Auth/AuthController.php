@@ -37,13 +37,17 @@ class AuthController extends ApiController
 
         $user = User::where('email', $data['email'])->first();
         $user['token'] = $user->createToken('access_token')->plainTextToken;
-        
+
         return $this->showOne($user);
     }
 
     public function logout()
     {
-
+        $user = auth('sanctum')->user();
+        $user->currentAccessToken()->delete();
+        $user['token'] = null;
+        
+        return $this->showOne($user);
     }
 
     public function delete()
