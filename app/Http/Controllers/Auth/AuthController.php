@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\Auth\AuthCheckDuplicateUserRequest;
 use App\Http\Requests\Auth\AuthLoginRequest;
 use App\Http\Requests\Auth\AuthRegisterRequest;
 use App\Models\User;
@@ -68,5 +69,10 @@ class AuthController extends ApiController
         $user->delete();
 
         return $this->showMessage('계정을 삭제하였습니다.');
+    }
+
+    public function duplicated(AuthCheckDuplicateUserRequest $request)
+    {
+        return $this->showMessage("중복 체크 패스");
     }
 }
