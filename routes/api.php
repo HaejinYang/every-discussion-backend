@@ -26,8 +26,8 @@ use Illuminate\Support\Facades\Route;
 // auth
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
-Route::get('/auth/logout', [AuthController::class, 'logout']);
-Route::get('/auth/delete', [AuthController::class, 'delete']);
+Route::post('/auth/logout', [AuthController::class, 'logout']);
+Route::post('/auth/delete', [AuthController::class, 'delete']);
 
 
 // api
