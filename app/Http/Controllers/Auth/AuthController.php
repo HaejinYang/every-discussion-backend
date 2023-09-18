@@ -30,7 +30,7 @@ class AuthController extends ApiController
         $data = $request->input();
 
         assert(!is_null($data['email']), 'email required');
-        assert($data['password'] === $data['password_confirmation'], 'password should be confirmed');
+        assert(!is_null($data['password']), 'password required');
 
         if (!Auth::attempt($request->only(['email', 'password']))) {
             return $this->showMessage('login failed', Response::HTTP_UNAUTHORIZED);
