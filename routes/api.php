@@ -23,13 +23,17 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
+
+// need auth
+Route::middleware(['auth.token'])->group(function () {
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::post('/auth/delete', [AuthController::class, 'delete']);
+});
+
 // auth
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
-Route::post('/auth/logout', [AuthController::class, 'logout']);
-Route::post('/auth/delete', [AuthController::class, 'delete']);
 Route::get('/auth/check-duplicated', [AuthController::class, 'duplicated']);
-
 
 // api
 Route::apiResource('topics', TopicController::class)->only('index', 'show', 'store');
