@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // need auth
-Route::middleware(['auth.token'])->group(function () {
+Route::middleware(['auth.token', 'user.get'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::post('/auth/delete', [AuthController::class, 'delete']);
 });
