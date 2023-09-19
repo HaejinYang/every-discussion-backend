@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Auth\AuthCheckDuplicateUserRequest;
 use App\Http\Requests\Auth\AuthLoginRequest;
 use App\Http\Requests\Auth\AuthRegisterRequest;
+use App\Models\Participant;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -40,6 +41,8 @@ class AuthController extends ApiController
 
         $user = User::where('email', $email)->first();
         $user['token'] = $user->createToken('access_token')->plainTextToken;
+        $user['topicsCount'] = Participant::where('id', $user->id)->first()->topics()->count();
+        $user['opinionsCount'] = Participant::where('id', $user->id)->first()->opinions()->count();
 
         return $this->showOne($user);
     }
