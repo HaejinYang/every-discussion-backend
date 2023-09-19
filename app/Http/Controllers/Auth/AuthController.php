@@ -6,7 +6,9 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Auth\AuthCheckDuplicateUserRequest;
 use App\Http\Requests\Auth\AuthLoginRequest;
 use App\Http\Requests\Auth\AuthRegisterRequest;
+use App\Models\Participant;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,27 +29,29 @@ class AuthController extends ApiController
 
     public function login(AuthLoginRequest $request)
     {
-        $data = $request->input();
+        $email = $request->input('email');
+        $password = $request->input('password');
 
-        assert(!is_null($data['email']), 'email required');
-        assert(!is_null($data['password']), 'password required');
+        assert(!is_null($email), 'email required');
+        assert(!is_null($password), 'password required');
 
         if (!Auth::attempt($request->only(['email', 'password']))) {
             return $this->showMessage('login failed', Response::HTTP_UNAUTHORIZED);
         }
 
-        $user = User::where('email', $data['email'])->first();
+        $user = User::where('email', $email)->first();
         $user['token'] = $user->createToken('access_token')->plainTextToken;
+        $user['topicsCount'] = Participant::where('id', $user->id)->first()->topics()->count();
+        $user['opinionsCount'] = Participant::where('id', $user->id)->first()->opinions()->count();
 
         return $this->showOne($user);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        $user = auth('sanctum')->user();
-        if (is_null($user)) {
-            return $this->showMessage('로그아웃할 수 없습니다.', Response::HTTP_UNAUTHORIZED);
-        }
+        $user = $request->input('user');
+
+        assert(!is_null($user), 'user required');
 
         $user->currentAccessToken()->delete();
         $user['token'] = null;
@@ -55,16 +59,11 @@ class AuthController extends ApiController
         return $this->showOne($user);
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
-        if (!auth('sanctum')->check()) {
-            return $this->error('계정을 삭제할 수 없습니다.', Response::HTTP_UNAUTHORIZED);
-        }
+        $user = $request->input('user');
 
-        $user = auth('sanctum')->user();
-        if (is_null($user)) {
-            return $this->error('계정을 삭제할 수 없습니다.', Response::HTTP_UNAUTHORIZED);
-        }
+        assert(!is_null($user), 'user required');
 
         $user->delete();
 
