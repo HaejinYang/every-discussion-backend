@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Opinion\OpinionController;
 use App\Http\Controllers\Topic\TopicController;
 use App\Http\Controllers\Topic\TopicOpinionController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\UserTopicController;
 use App\Http\Controllers\User\UserTopicOpinionController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth.token', 'user.get'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::post('/auth/delete', [AuthController::class, 'delete']);
+    Route::apiResource('topics', TopicOpinionController::class)->only('store');
+    Route::put('/user', [UserController::class, 'update']);
+    Route::delete('/user', [UserController::class, 'destroy']);
 });
 
 // auth
@@ -36,7 +40,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::get('/auth/check-duplicated', [AuthController::class, 'duplicated']);
 
 // api
-Route::apiResource('topics', TopicController::class)->only('index', 'show', 'store');
+Route::apiResource('topics', TopicController::class)->only('index', 'show');
 Route::get('topics/{topic}/opinions', TopicOpinionController::class);
 Route::apiResource('opinions', OpinionController::class)->only('store', 'show');
 Route::apiResource('users/{user}/topics/{topic}/opinions', UserTopicOpinionController::class)->only('index');
