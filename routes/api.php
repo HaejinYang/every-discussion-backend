@@ -31,6 +31,7 @@ Route::middleware(['auth.token', 'user.get'])->group(function () {
     Route::post('/auth/delete', [AuthController::class, 'delete']);
     Route::apiResource('topics', TopicOpinionController::class)->only('store');
     Route::put('/user', [UserController::class, 'update']);
+    Route::delete('/user', [UserController::class, 'destroy']);
 });
 
 // auth
