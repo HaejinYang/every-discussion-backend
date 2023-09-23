@@ -33,9 +33,10 @@ Route::middleware(['auth.token', 'user.get'])->group(function () {
     Route::put('/user', [UserController::class, 'update']);
     Route::delete('/user', [UserController::class, 'destroy']);
 
-    // user topic controller
-    Route::get('/users/{user}/topics', UserTopicController::class);
 });
+
+// user-topic controller
+Route::get('/users/{user}/topics', UserTopicController::class);
 
 // auth
 Route::post('/auth/register', [AuthController::class, 'register']);
