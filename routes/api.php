@@ -32,7 +32,11 @@ Route::middleware(['auth.token', 'user.get'])->group(function () {
     Route::apiResource('topics', TopicOpinionController::class)->only('store');
     Route::put('/user', [UserController::class, 'update']);
     Route::delete('/user', [UserController::class, 'destroy']);
+
 });
+
+// user-topic controller
+Route::get('/users/{user}/topics', UserTopicController::class);
 
 // auth
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -44,7 +48,6 @@ Route::apiResource('topics', TopicController::class)->only('index', 'show');
 Route::get('topics/{topic}/opinions', TopicOpinionController::class);
 Route::apiResource('opinions', OpinionController::class)->only('store', 'show');
 Route::apiResource('users/{user}/topics/{topic}/opinions', UserTopicOpinionController::class)->only('index');
-Route::apiResource('users/{user}/topics', UserTopicController::class)->only('index');
 // fallback은 라우터 가장 하단에 있어야 한다.
 Route::fallback(function () {
     return response()->json("등록되지 않은 URL입니다.");
