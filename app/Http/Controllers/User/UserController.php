@@ -14,13 +14,23 @@ class UserController extends ApiController
     {
         $password = $request->input('password');
         $passwordConfirmation = $request->input('password_confirmation');
+        $name = $request->input('name');
         $user = $request->input('user');
 
         assert(!is_null($user), "잘못된 유저입니다");
-        assert(!is_null($password) && !is_null($passwordConfirmation), "패스워드가 필요합니다.");
-        assert($password === $passwordConfirmation, "패스워드가 다릅니다.");
 
-        $user->update(['password' => Hash::make($password)]);
+        $updates = [];
+        if (!is_null($name)) {
+            $updates['name'] = $name;
+        }
+
+        if (!is_null($password)) {
+            assert(!is_null($password) && !is_null($passwordConfirmation), "패스워드가 필요합니다.");
+            assert($password === $passwordConfirmation, "패스워드가 다릅니다.");
+            $updates['password'] = Hash::make($password);
+        }
+
+        $user->update($updates);
 
         return $this->showMessage("비밀번호 변경 성공");
     }
