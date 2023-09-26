@@ -27,14 +27,14 @@ use Illuminate\Support\Facades\Route;
 
 // need auth
 Route::middleware(['auth.token', 'user.get'])->group(function () {
+    // 유저 로그인, 로그아웃,
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::post('/auth/delete', [AuthController::class, 'delete']);
     Route::post('/topics', [TopicController::class, 'store']);
     Route::put('/user', [UserController::class, 'update']);
     Route::delete('/user', [UserController::class, 'destroy']);
-
-
-    Route::get('users/{user}/topics/{topic}/opinions', UserTopicOpinionController::class);
+    Route::post('/opinions', [OpinionController::class, 'store']);
+    Route::get('/users/{user}/topics/{topic}/opinions', UserTopicOpinionController::class);
 });
 
 // user-topic controller
@@ -48,7 +48,10 @@ Route::get('/auth/check-duplicated', [AuthController::class, 'duplicated']);
 // api
 Route::apiResource('topics', TopicController::class)->only('index', 'show');
 Route::get('topics/{topic}/opinions', TopicOpinionController::class);
-Route::apiResource('opinions', OpinionController::class)->only('store', 'show');
+
+// opinion 가져오기
+Route::get('opinions/{opinion}', [OpinionController::class, 'show']);
+
 // fallback은 라우터 가장 하단에 있어야 한다.
 Route::fallback(function () {
     return response()->json("등록되지 않은 URL입니다.");
