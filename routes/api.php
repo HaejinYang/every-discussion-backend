@@ -52,6 +52,9 @@ Route::get('topics/{topic}/opinions', TopicOpinionController::class);
 // opinion 가져오기
 Route::get('opinions/{opinion}', [OpinionController::class, 'show']);
 
+// 개발중 테스트용
+// Route::post('test/test', TestController::class);
+
 // fallback은 라우터 가장 하단에 있어야 한다.
 Route::fallback(function () {
     return response()->json("등록되지 않은 URL입니다.");
