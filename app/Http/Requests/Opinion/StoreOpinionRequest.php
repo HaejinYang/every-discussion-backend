@@ -23,10 +23,10 @@ class StoreOpinionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'topicId' => ['required'],
-            'title' => ['required', 'min:1'],
-            'content' => ['required', 'min:1'],
-            'agreeingType' => ['required', 'min:1'],
+            'topicId' => ['required', 'exists:topics,id'],
+            'title' => ['required', 'min:1', 'max:255', 'string'],
+            'content' => ['required', 'min:1', 'max:255', 'string'],
+            'agreeingType' => ['required', 'min:1', 'string', 'in:agree,disagree'],
         ];
     }
 }
