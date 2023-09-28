@@ -31,8 +31,8 @@ Route::middleware(['auth.token', 'user.get'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::post('/auth/delete', [AuthController::class, 'delete']);
     Route::post('/topics', [TopicController::class, 'store']);
-    Route::put('/user', [UserController::class, 'update']);
-    Route::delete('/user', [UserController::class, 'destroy']);
+    Route::put('/users', [UserController::class, 'update']);
+    Route::delete('/users', [UserController::class, 'destroy']);
     Route::post('/opinions', [OpinionController::class, 'store']);
     Route::get('/users/{user}/topics/{topic}/opinions', UserTopicOpinionController::class);
 });
