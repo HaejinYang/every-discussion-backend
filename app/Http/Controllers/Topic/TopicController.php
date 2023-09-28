@@ -6,14 +6,12 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Topic\StoreTopicRequest;
 use App\Models\Topic;
 use App\Services\Topic\TopTopicsService;
+use App\Util\ArrayUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class TopicController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $keyword = $request->input('keyword');
@@ -31,35 +29,30 @@ class TopicController extends ApiController
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreTopicRequest $request)
     {
-        $created = Topic::create(array_merge($request->all(), ['user_id' => 1]));
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['title', 'description', 'user'], $input), '필드 확인');
 
-        return $this->showOne($created, Response::HTTP_CREATED);
+        $topic = Topic::create([
+            'title' => $input['title'],
+            'description' => $input['description'],
+            'user_id' => $input['user']->id,
+        ]);
+
+        return $this->showOne($topic, Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Topic $topic)
     {
         return $this->showOne($topic);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

@@ -8,6 +8,7 @@ use App\Http\Requests\Auth\AuthLoginRequest;
 use App\Http\Requests\Auth\AuthRegisterRequest;
 use App\Models\Participant;
 use App\Models\User;
+use App\Util\ArrayUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -16,30 +17,24 @@ class AuthController extends ApiController
 {
     public function register(AuthRegisterRequest $request)
     {
-        $data = $request->input();
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['email', 'name', 'password', 'password_confirmation'], $input), '필드 확인');
 
-        assert(!is_null($data['email']), 'email required');
-        assert(!is_null($data['name']), 'name required');
-        assert($data['password'] === $data['password_confirmation'], 'password should be confirmed');
-
-        $user = User::create($data);
+        $user = User::create($input);
 
         return $this->showOne($user);
     }
 
     public function login(AuthLoginRequest $request)
     {
-        $email = $request->input('email');
-        $password = $request->input('password');
-
-        assert(!is_null($email), 'email required');
-        assert(!is_null($password), 'password required');
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['email', 'password'], $input), '필드 확인');
 
         if (!Auth::attempt($request->only(['email', 'password']))) {
             return $this->showMessage('login failed', Response::HTTP_UNAUTHORIZED);
         }
 
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $input['email'])->first();
         $user['token'] = $user->createToken('access_token')->plainTextToken;
         $user['topicsCount'] = Participant::where('id', $user->id)->first()->topics()->count();
         $user['opinionsCount'] = Participant::where('id', $user->id)->first()->opinions()->count();
@@ -49,10 +44,10 @@ class AuthController extends ApiController
 
     public function logout(Request $request)
     {
-        $user = $request->input('user');
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['user'], $input), '필드 확인');
 
-        assert(!is_null($user), 'user required');
-
+        $user = $input['user'];
         $user->currentAccessToken()->delete();
         $user['token'] = null;
 
@@ -61,10 +56,10 @@ class AuthController extends ApiController
 
     public function delete(Request $request)
     {
-        $user = $request->input('user');
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['user'], $input), '필드 확인');
 
-        assert(!is_null($user), 'user required');
-
+        $user = $input['user'];
         $user->delete();
 
         return $this->showMessage('계정을 삭제하였습니다.');
