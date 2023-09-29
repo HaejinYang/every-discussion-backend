@@ -27,29 +27,39 @@ use Illuminate\Support\Facades\Route;
 
 // need auth
 Route::middleware(['auth.token', 'user.get'])->group(function () {
-    // 유저 로그인, 로그아웃,
+    // 유저 로그아웃, 삭제
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::post('/auth/delete', [AuthController::class, 'delete']);
-    Route::post('/topics', [TopicController::class, 'store']);
+
+    // 유저 업데이트, 탈퇴
     Route::put('/users', [UserController::class, 'update']);
     Route::delete('/users', [UserController::class, 'destroy']);
+
+    // 토픽 추가
+    Route::post('/topics', [TopicController::class, 'store']);
+
+    // 의견 추가
     Route::post('/opinions', [OpinionController::class, 'store']);
+
+    // 유저가 특정 토픽에 적은 모든 의견들 응답
     Route::get('/users/{user}/topics/{topic}/opinions', UserTopicOpinionController::class);
 });
 
-// user-topic controller
+// 유저가 참여한 토픽들 반환
 Route::get('/users/{user}/topics', UserTopicController::class);
 
-// auth
+// 유저 가입, 로그인, 중복확인
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::get('/auth/check-duplicated', [AuthController::class, 'duplicated']);
 
-// api
+// 토픽을 보여줌
 Route::apiResource('topics', TopicController::class)->only('index', 'show');
+
+// 특정 토픽에 속한 의견들을 보여줌
 Route::get('topics/{topic}/opinions', TopicOpinionController::class);
 
-// opinion 가져오기
+// 의견 가져오기
 Route::get('opinions/{opinion}', [OpinionController::class, 'show']);
 
 // 개발중 테스트용
