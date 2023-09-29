@@ -47,6 +47,11 @@ class Topic extends Model
 
     public function getHostAttribute(): string
     {
-        return $this->host()->get()->value('name');
+        $host = $this->host()->first();
+        if (is_null($host)) {
+            return "";
+        }
+
+        return $host->value('name');
     }
 }
