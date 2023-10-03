@@ -14,7 +14,7 @@ class Opinion extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['topic_id', 'user_id', 'title', 'content', 'agree_type'];
+    protected $fillable = ['topic_id', 'user_id', 'title', 'content', 'agree_type', 'like', 'dislike'];
     protected $appends = ['refer_to', 'referred'];
 
     public function getReferToAttribute()
