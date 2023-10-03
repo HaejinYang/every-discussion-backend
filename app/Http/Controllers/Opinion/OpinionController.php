@@ -21,6 +21,8 @@ class OpinionController extends ApiController
             'content' => $input['content'],
             'agree_type' => $input['agreeingType'],
             'user_id' => $input['user']->id,
+            'dislike' => 0,
+            'like' => 0,
         ]);
 
         return $this->showOne($opinion, Response::HTTP_CREATED);
