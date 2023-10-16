@@ -7,6 +7,7 @@ use App\Http\Requests\Opinion\StoreOpinionRequest;
 use App\Models\Opinion;
 use App\Util\ArrayUtil;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class OpinionController extends ApiController
 {
@@ -25,6 +26,11 @@ class OpinionController extends ApiController
             'like' => 0,
         ]);
 
+        $isExist = DB::table('participant_topic')->where('topic_id', $input['topicId'])->where('participant_id', $input['user']->id)->count();
+        if (!$isExist) {
+            DB::table('participant_topic')->insert(['participant_id' => $input['user']->id, 'topic_id' => $input['topicId']]);
+        }
+        
         return $this->showOne($opinion, Response::HTTP_CREATED);
     }
 
