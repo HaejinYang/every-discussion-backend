@@ -1,66 +1,93 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 개요
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+토론 웹 서비스 모두의 토론의 백엔드 레포지토리이다.
+[프론트엔드 바로가기](https://github.com/HaejinYang/every-discussion-frontend)
 
-## About Laravel
+# 기술 스택
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Laravel, MySQL, Docker을 기반으로 진행하였다. API 테스트용으로 Postman을 사용하였다.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# 개발 환경 구축
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# 구현
 
-## Learning Laravel
+## 구현 내용
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+TODO: 구현에 쓴 내용들 일부를 보여준다.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 구현 중 해결한 문제
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 문제 1. 개발 환경 구축
 
-## Laravel Sponsors
+#### 상황
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+라라벨은 라라벨 Sail, homestead 등의 개발 환경 구축을 위한 지원이 있음. Sail은 설치만 해보고 명령어만 써봐도 편한 것을 알 수 있었음. 그러나, 이것을 이용하지 않고 개발 환경을 직접 구축하기로
+했음. 라라벨에 익숙해질 수 있을 것이고, 서버나 디비 세팅을 하면서 웹 개발 자체에 익숙해지는 효과를 기대했음. 이전에 php-apache 도커 이미지를 기반으로 세팅해 본 경험이 있기에 할만하다고 기대했음.
 
-### Premium Partners
+먼저 php-apache, mysql 기본 이미지를 기반으로 도커 파일을 생성하여 라라벨 코드를 도큐먼트 루트에 마운팅 하여 실행했음. 에러가 나서 화면이 안 나오는 것이라 생각할 정도로 매우 느렸음. 아래 실행
+결과를 보면 무려 28초가 걸린 것을 알 수 있음. 기본 화면만 있는 초기 상태임에도 불구하고...
+![문제1](./reference/문제1.png)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+#### 해결
 
-## Contributing
+매우 느린 응답이 발생한 이유는 WSL2의 파일 시스템과 윈도우 파일 시스템이 다르기 때문이었음. 윈도우의 파일을 WSL2에 마운팅 했으므로, 도커 컨테이너 안에서 파일을 읽으려면 호스트 OS인 윈도우 파일을
+WSL2 기반에 맞게 트랜스레이션이 필요함. 라라벨은 vendor 디렉토리 안의 대량의 파일을 읽어오기에 이 문제가 크게 다가왔던 것임. 문제를 해결하기 위해서 소스 파일들을 볼륨 마운팅하는 것이 아니라 WSL2에
+위치시켜야 했음. 즉, 처음부터 WSL2 위에서 라라벨을 설치해서 사용하거나 컨테이너를 올리면서 파일들을 복사해야 함.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+첫 번째 방법인 WSL2위에 바로 라라벨을 설치하는 방법은 건너뛰었음. 이 방법은 라라벨 Sail을 이용하는 거랑 별 차이가 없기도 하고, 소스코드가 각종 WSL2 배포판에 흩어져 있는 것도 별로이기 때문임.
+IDE에서 도커 컨테이너로 연결하여 개발하면 은근히 느린게 체감 되기도 하고.
 
-## Code of Conduct
+두 번째 방법인 컨테이너를 올리면서 파일을 복사하는 것도 좋은 방법은 아니라고 생각했음. 도커 파일을 이용하여 컨테이너를 생성할 때, 도커 파일이 있는 디렉토리를 기준으로 서브디렉토리까지 모두 도커의 컨텍스트에
+포함되어서 매우 느려지기 때문임.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+그렇다면, 다른 방법이 있을까 생각해보니, 볼륨 마운트에서 vendor디렉토리를 제외하면 어떨까 싶었음.  '파일 시스템이 달라 트랜스레이션이 필요함 + vendor 디렉토리 안의 대량의 파일을 읽음' = 매우 느린
+응답이므로 vendor를 제외하면 속도가 나오지 않을까 생각했음. 그런데, vendor 디렉토리를 제외하면 라라벨 프레임워크 실행에 필요한 의존성 패키지들이 없게 됨. 따라서, 볼륨 마운팅에서 vendor를 제외하고
+컨테이너를 올린 후, 컨테이너 안에서 컴포저를 이용하여 의존성 패키지들을 설치하는 과정이 필요함. 그 결과 응답 속도가 1/20로 줄었음. 이전의 응답 속도가 매우 느렸기에 엄청나게 빨라 보이지만, 사실
+1.5s정도라 매우 빠르다고 하긴 어려움.
+![문제1해결](./reference/문제1해결.png)
 
-## Security Vulnerabilities
+남은 것은 composer install 명령어를 어떻게 자동으로 실행하냐는 것임. 소스 코드를 마운팅해서 사용하기 때문에 컨테이너를 올리는 과정의 가장 마지막에 컴포저 설치 명령을 내려야 했음.
+docker-compose.yml 파일 안에 commands 속성에 composer install을 실행하도록 했음. 실행 자체는 잘 되지만, 컨테이너가 종료되는 문제가 발생했음. 컨테이너가 올라가고 예약된 커맨드가
+성공적으로 실행되었으므로 컨테이너를 더 이상 유지할 이유가 없어져 도커 엔진이 컨테이너를 종료하는 것임.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+컨테이너가 특정 프로세스를 계속 실행하도록 하여 컨테이너 종료를 막을 방법이 필요했음. 어떤 명령어를 추가해야 컨테이너가 멈추지 않을까... 생각해보니, 계속 사용하고 있던 php-apache 도커 이미지는 어떻게
+하고 있는 건지 의문이 들었음. 도커 허브에서 레이어를 살펴보니 마지막 라인에 CMD 명령어를 실행하는 것을 발견했음.
 
-## License
+```
+CMD ["apache2-foreground"]
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+위 명령어는 apache 웹 서버를 foreground로 실행하는 것임. 즉, 쉘에서 아파치 웹서버를 직접 실행하게 되니 컨테이너가 종료되지 않을 수 있는 것이었음. 위 명령어에 기반하여 도커 컴포즈 파일에 옮기고
+테스트를 통해 다음과 같은 commands를 작성하여 실행함. 그 결과 composer install 명령어 이후에도 컨테이너 실행이 잘되는 것을 확인함.
+
+```
+command: sh -c "composer install && apachectl -D FOREGROUND"
+```
+
+### 문제 2. xdebug를 통한 라인 브레이크 디버깅(PHPStorm)
+
+#### 상황
+
+디버깅을 하기 위해 var_dump를 출력해도 되고, 응답 메시지를 보내고, 뭘 해도 된다. 그래도, 경험상 라인 브레이크까지 가능하도록 설정을 해두면, 프로그램이 어떻게 도는지 추적하기 좋았다. 코드 수정 없이
+브레이크 포인트를 설정하고 여기에 특정 조건 까지 넣으면 내가 원하는 그 순간의 상황을 볼 수 있어서 좋기도 하고. 내 기준으론 너무 많은 이점이 많아서 안하는게 이상하다.
+
+#### 해결
+
+컨테이너 안에 xdebug를 설치하고 xdebug에 대한 설정파일을 다음과 같이 정의하여 conf.d 디렉토리 아래에 놓는다. client_host에 host.docker.internel이라고 되어 있는 것은
+컨테이너 안에서
+PHP가 돌고, 디버깅을 지원할 IDE는 호스트 OS에 위치하기 때문이다.
+
+```
+zend_extension=xdebug
+
+[xdebug]
+xdebug.mode=develop,debug
+xdebug.client_host=host.docker.internal
+xdebug.client_port=9004
+xdebug.start_with_request=yes
+```
+
+호스트 OS의 PHPStorm에서 설정 -> PHP -> Debug탭에서 Xdebug의 디버그 포트를 위 xdebug 설정파일에 적어둔 9004로 변경한다. 그리고 Servers 탭에서 다음과 같이 맵핑을 해준다.
+필요할 때마다 늘려주면 되는데, 현재 컨트롤러에 브레이크 포인트를 걸어서 하므로 app디렉토리를 매핑했다. public 디렉토리는 기본적으로 매핑이 되어 있었다.
+
+
