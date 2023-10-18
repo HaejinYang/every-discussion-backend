@@ -21,6 +21,6 @@ class UserTopicController extends ApiController
         $topicIds = array_unique($topicIds);
 
         $topics = Topic::whereIn('id', $topicIds)->get();
-        return $this->showAll($topics)
+        return $this->showAll($topics);
     }
 }
