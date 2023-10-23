@@ -6,12 +6,15 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Auth\AuthCheckDuplicateUserRequest;
 use App\Http\Requests\Auth\AuthLoginRequest;
 use App\Http\Requests\Auth\AuthRegisterRequest;
+use App\Mail\AuthMail;
 use App\Models\Participant;
 use App\Models\User;
 use App\Util\ArrayUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AuthController extends ApiController
 {
@@ -20,7 +23,14 @@ class AuthController extends ApiController
         $input = $request->input();
         assert(ArrayUtil::existKeysStrictly(['email', 'name', 'password', 'password_confirmation'], $input), '필드 확인');
 
+        $input['remember_token'] = Str::random(10);
+
         $user = User::create($input);
+        if (env('APP_ENV') === 'local') {
+            Mail::to('extension.master.91@gmail.com')->send(new AuthMail($user->email, $user->remember_token));
+        } else {
+            Mail::to($user->email)->send(new AuthMail($user->email, $user->remember_token));
+        }
 
         return $this->showOne($user);
     }
@@ -29,7 +39,7 @@ class AuthController extends ApiController
     {
         $input = $request->input();
         assert(ArrayUtil::existKeysStrictly(['email', 'password'], $input), '필드 확인');
-
+        // TODO: 이메일 인증이 안되면 반려하기 추가.
         if (!Auth::attempt($request->only(['email', 'password']))) {
             return $this->showMessage('login failed', Response::HTTP_UNAUTHORIZED);
         }
