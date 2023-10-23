@@ -1,6 +1,6 @@
 <?php
 
-use App\Mail\HelloMail;
+use App\Mail\AuthMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    Mail::to('extension.master.91@gmail.com')->send(new HelloMail());
+    Mail::to('extension.master.91@gmail.com')->send(new AuthMail());
 
     return view('welcome');
 });
