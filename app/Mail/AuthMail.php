@@ -13,14 +13,14 @@ class AuthMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public string $link;
+    public string $url;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(string $user, string $token)
     {
-        $this->link = 'test.test.test';
+        $this->url = "http://127.0.0.1:56000/verify?user={$user}&token={$token}";
     }
 
     /**
