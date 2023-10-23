@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\EmailAuthController;
 use App\Mail\AuthMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +21,12 @@ Route::get('/', function () {
 
     return view('welcome');
 });
+
+Route::get('/verify', EmailAuthController::class);
+//
+//Route::get('/verify', function (Request $request) {
+//    $user = $request->input('user');
+//    $token = $request->input('token');
+//
+//    return view('mail.verify', ['user' => $user, 'token' => $token]);
+//});
