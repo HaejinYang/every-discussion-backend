@@ -45,7 +45,7 @@ class AuthController extends ApiController
 
         $user = User::where('email', $email)->firstOrFail();
         if (!$user->email_verified_at) {
-            return $this->showMessage('login failed', Response::HTTP_UNAUTHORIZED);
+            return $this->showMessage('login failed', Response::HTTP_FORBIDDEN);
         }
 
         if (!Auth::attempt(['email' => $email, 'password' => $password])) {
