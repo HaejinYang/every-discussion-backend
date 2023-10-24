@@ -39,12 +39,19 @@ class AuthController extends ApiController
     {
         $input = $request->input();
         assert(ArrayUtil::existKeysStrictly(['email', 'password'], $input), '필드 확인');
-        // TODO: 이메일 인증이 안되면 반려하기 추가.
-        if (!Auth::attempt($request->only(['email', 'password']))) {
+
+        $email = $input['email'];
+        $password = $input['password'];
+
+        $user = User::where('email', $email)->firstOrFail();
+        if (!$user->email_verified_at) {
             return $this->showMessage('login failed', Response::HTTP_UNAUTHORIZED);
         }
 
-        $user = User::where('email', $input['email'])->first();
+        if (!Auth::attempt(['email' => $email, 'password' => $password])) {
+            return $this->showMessage('login failed', Response::HTTP_UNAUTHORIZED);
+        }
+
         $user['token'] = $user->createToken('access_token')->plainTextToken;
         $user['topicsCount'] = Participant::where('id', $user->id)->first()->topics()->count();
         $user['opinionsCount'] = Participant::where('id', $user->id)->first()->opinions()->count();
