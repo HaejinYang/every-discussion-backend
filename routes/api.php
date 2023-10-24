@@ -48,10 +48,12 @@ Route::middleware(['auth.token', 'user.get'])->group(function () {
 // 유저가 참여한 토픽들 반환
 Route::get('/users/{user}/topics', UserTopicController::class);
 
-// 유저 가입, 로그인, 중복확인
+// 유저 가입, 로그인, 중복확인, 아이디 찾기, 패스워드 찾기
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
-Route::get('/auth/check-duplicated', [AuthController::class, 'duplicated']);
+Route::get('/auth/duplicated', [AuthController::class, 'duplicated']);
+Route::get('/auth/email', [AuthController::class, 'findEmail']);
+
 
 // 토픽을 보여줌
 Route::apiResource('topics', TopicController::class)->only('index', 'show');

@@ -86,4 +86,15 @@ class AuthController extends ApiController
     {
         return $this->showMessage("중복 체크 패스");
     }
+
+    public function findEmail(Request $request)
+    {
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['name'], $input), '필드 확인');
+
+        $name = $input['name'];
+        $user = User::where('name', $name)->firstOrFail();
+
+        return $this->showOne((object)['email' => $user->email]);
+    }
 }
