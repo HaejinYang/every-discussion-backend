@@ -14,6 +14,7 @@ use App\Util\ArrayUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -127,6 +128,28 @@ class AuthController extends ApiController
         $email = $input['email'];
 
         User::where('email', $email)->where('remember_token', $token)->firstOrFail();
+
+        return $this->showMessage('success');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['email', 'token', 'password', 'password_confirmation'], $input), '필드 확인');
+
+        $token = $input['token'];
+        $email = $input['email'];
+        $password = $input['password'];
+        $passwordConfirm = $input['password_confirmation'];
+        
+        if ($password !== $passwordConfirm) {
+            return $this->showMessage('패스워드가 일치하지 않습니다', Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = User::where('email', $email)->where('remember_token', $token)->firstOrFail();
+        $newPassword = Hash::make($password);
+        $user->password = $newPassword;
+        $user->saveOrFail();
 
         return $this->showMessage('success');
     }

@@ -55,6 +55,8 @@ Route::get('/auth/duplicated', [AuthController::class, 'duplicated']);
 Route::get('/auth/email', [AuthController::class, 'findEmail']);
 Route::get('/auth/password/token', [AuthController::class, 'sendTokenForChangingPassword']);
 Route::post('/auth/password/token', [AuthController::class, 'verifyTokenForChangingPassword']);
+Route::post('/auth/password', [AuthController::class, 'changePassword']);
+
 
 // 토픽을 보여줌
 Route::apiResource('topics', TopicController::class)->only('index', 'show');
