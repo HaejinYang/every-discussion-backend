@@ -7,12 +7,14 @@ use App\Http\Requests\Auth\AuthCheckDuplicateUserRequest;
 use App\Http\Requests\Auth\AuthLoginRequest;
 use App\Http\Requests\Auth\AuthRegisterRequest;
 use App\Mail\AuthMail;
+use App\Mail\SendTokenForChangingPassword;
 use App\Models\Participant;
 use App\Models\User;
 use App\Util\ArrayUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -85,5 +87,70 @@ class AuthController extends ApiController
     public function duplicated(AuthCheckDuplicateUserRequest $request)
     {
         return $this->showMessage("중복 체크 패스");
+    }
+
+    public function findEmail(Request $request)
+    {
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['name'], $input), '필드 확인');
+
+        $name = $input['name'];
+        $user = User::where('name', $name)->firstOrFail();
+
+        return $this->showOne((object)['email' => $user->email]);
+    }
+
+    public function sendTokenForChangingPassword(Request $request)
+    {
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['email'], $input), '필드 확인');
+
+        $token = Str::random(10);
+        $user = User::where('email', $input['email'])->firstOrFail();
+        $user->remember_token = $token;
+        $user->saveOrFail();
+
+        if (env('APP_ENV') === 'local') {
+            Mail::to('extension.master.91@gmail.com')->send(new SendTokenForChangingPassword($token));
+        } else {
+            Mail::to($user->email)->send(new SendTokenForChangingPassword($token));
+        }
+
+        return $this->showOne((object)['token' => $token]);
+    }
+
+    public function verifyTokenForChangingPassword(Request $request)
+    {
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['email', 'token'], $input), '필드 확인');
+
+        $token = $input['token'];
+        $email = $input['email'];
+
+        User::where('email', $email)->where('remember_token', $token)->firstOrFail();
+
+        return $this->showMessage('success');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['email', 'token', 'password', 'password_confirmation'], $input), '필드 확인');
+
+        $token = $input['token'];
+        $email = $input['email'];
+        $password = $input['password'];
+        $passwordConfirm = $input['password_confirmation'];
+        
+        if ($password !== $passwordConfirm) {
+            return $this->showMessage('패스워드가 일치하지 않습니다', Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = User::where('email', $email)->where('remember_token', $token)->firstOrFail();
+        $newPassword = Hash::make($password);
+        $user->password = $newPassword;
+        $user->saveOrFail();
+
+        return $this->showMessage('success');
     }
 }
