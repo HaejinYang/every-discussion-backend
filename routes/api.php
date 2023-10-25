@@ -53,6 +53,7 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::get('/auth/duplicated', [AuthController::class, 'duplicated']);
 Route::get('/auth/email', [AuthController::class, 'findEmail']);
+Route::get('/auth/password/token', [AuthController::class, 'sendTokenForChangingPassword']);
 
 
 // 토픽을 보여줌

@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\AuthCheckDuplicateUserRequest;
 use App\Http\Requests\Auth\AuthLoginRequest;
 use App\Http\Requests\Auth\AuthRegisterRequest;
 use App\Mail\AuthMail;
+use App\Mail\SendTokenForChangingPassword;
 use App\Models\Participant;
 use App\Models\User;
 use App\Util\ArrayUtil;
@@ -96,5 +97,24 @@ class AuthController extends ApiController
         $user = User::where('name', $name)->firstOrFail();
 
         return $this->showOne((object)['email' => $user->email]);
+    }
+
+    public function sendTokenForChangingPassword(Request $request)
+    {
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['email'], $input), '필드 확인');
+
+        $token = Str::random(10);
+        $user = User::where('email', $input['email'])->firstOrFail();
+        $user->remember_token = $token;
+        $user->saveOrFail();
+
+        if (env('APP_ENV') === 'local') {
+            Mail::to('extension.master.91@gmail.com')->send(new SendTokenForChangingPassword($token));
+        } else {
+            Mail::to($user->email)->send(new SendTokenForChangingPassword($token));
+        }
+
+        return $this->showOne((object)['token' => $token]);
     }
 }
