@@ -117,4 +117,17 @@ class AuthController extends ApiController
 
         return $this->showOne((object)['token' => $token]);
     }
+
+    public function verifyTokenForChangingPassword(Request $request)
+    {
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['email', 'token'], $input), '필드 확인');
+
+        $token = $input['token'];
+        $email = $input['email'];
+
+        User::where('email', $email)->where('remember_token', $token)->firstOrFail();
+
+        return $this->showMessage('success');
+    }
 }
