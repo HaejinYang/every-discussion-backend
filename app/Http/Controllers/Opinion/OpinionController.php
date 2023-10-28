@@ -6,8 +6,10 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Opinion\StoreOpinionRequest;
 use App\Models\Opinion;
 use App\Util\ArrayUtil;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use SebastianBergmann\Diff\Exception;
 
 class OpinionController extends ApiController
 {
@@ -30,12 +32,44 @@ class OpinionController extends ApiController
         if (!$isExist) {
             DB::table('participant_topic')->insert(['participant_id' => $input['user']->id, 'topic_id' => $input['topicId']]);
         }
-        
+
         return $this->showOne($opinion, Response::HTTP_CREATED);
     }
 
     public function show(Opinion $opinion)
     {
+        return $this->showOne($opinion);
+    }
+
+    public function delete(Opinion $opinion)
+    {
+        $userId = $opinion->user_id;
+        $topicId = $opinion->topic_id;
+
+        DB::beginTransaction();
+        try {
+            DB::select('SELECT * FROM opinions FOR UPDATE ');
+            $opinion->deleteOrFail();
+            $opinionsCount = Opinion::where('topic_id', $topicId)->where('user_id', $userId)->count();
+            if ($opinionsCount === 0) {
+                DB::delete('DELETE FROM participant_topic WHERE participant_id = ? and topic_id = ?', [$userId, $topicId]);
+            }
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+
+        return $this->showMessage('의견 삭제');
+    }
+
+    public function update(Request $request, Opinion $opinion)
+    {
+        $input = $request->input();
+
+        $opinion->content = $input['content'];
+        $opinion->title = $input['title'];
+        $opinion->saveOrFail();
+
         return $this->showOne($opinion);
     }
 }
