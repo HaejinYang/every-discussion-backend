@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Opinion\StoreOpinionRequest;
 use App\Models\Opinion;
 use App\Util\ArrayUtil;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use SebastianBergmann\Diff\Exception;
@@ -59,5 +60,16 @@ class OpinionController extends ApiController
         }
 
         return $this->showMessage('의견 삭제');
+    }
+
+    public function update(Request $request, Opinion $opinion)
+    {
+        $input = $request->input();
+
+        $opinion->content = $input['content'];
+        $opinion->title = $input['title'];
+        $opinion->saveOrFail();
+
+        return $this->showOne($opinion);
     }
 }
