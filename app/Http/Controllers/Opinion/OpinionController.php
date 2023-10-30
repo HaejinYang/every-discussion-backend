@@ -35,7 +35,7 @@ class OpinionController extends ApiController
                 DB::table('participant_topic')->insert(['participant_id' => $input['user']->id, 'topic_id' => $input['topicId']]);
             }
 
-            if ($input['addTo']) {
+            if (isset($input['addTo'])) {
                 $addToId = $input['addTo'];
 
                 DB::table('opinions_reference')->insert(['opinion_id' => $opinion->id, 'refer_to_id' => $addToId]);
