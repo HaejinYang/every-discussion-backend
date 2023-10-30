@@ -24,8 +24,7 @@ class OpinionReferenceFactory extends Factory
 
         return [
             'opinion_id' => $opinionId,
-            'refer_to_id' => $referToId,
-            'agree_type' => fake()->randomElement(['agree', 'disagree']),
+            'refer_to_id' => $referToId
         ];
     }
 }
