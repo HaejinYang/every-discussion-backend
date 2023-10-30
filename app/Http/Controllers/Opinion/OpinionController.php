@@ -28,9 +28,21 @@ class OpinionController extends ApiController
             'like' => 0,
         ]);
 
-        $isExist = DB::table('participant_topic')->where('topic_id', $input['topicId'])->where('participant_id', $input['user']->id)->count();
-        if (!$isExist) {
-            DB::table('participant_topic')->insert(['participant_id' => $input['user']->id, 'topic_id' => $input['topicId']]);
+        DB::beginTransaction();
+        try {
+            $isExist = DB::table('participant_topic')->where('topic_id', $input['topicId'])->where('participant_id', $input['user']->id)->count();
+            if (!$isExist) {
+                DB::table('participant_topic')->insert(['participant_id' => $input['user']->id, 'topic_id' => $input['topicId']]);
+            }
+
+            if ($input['addTo']) {
+                $addToId = $input['addTo'];
+
+                DB::table('opinions_reference')->insert(['opinion_id' => $opinion->id, 'refer_to_id' => $addToId]);
+            }
+            DB::commit();
+        } catch (e) {
+            DB::rollBack();
         }
 
         return $this->showOne($opinion, Response::HTTP_CREATED);
