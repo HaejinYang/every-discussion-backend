@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\Auth\AuthChangePasswordRequest;
 use App\Http\Requests\Auth\AuthCheckDuplicateUserRequest;
 use App\Http\Requests\Auth\AuthLoginRequest;
 use App\Http\Requests\Auth\AuthRegisterRequest;
@@ -132,7 +133,7 @@ class AuthController extends ApiController
         return $this->showMessage('success');
     }
 
-    public function changePassword(Request $request)
+    public function changePassword(AuthChangePasswordRequest $request)
     {
         $input = $request->input();
         assert(ArrayUtil::existKeysStrictly(['email', 'token', 'password', 'password_confirmation'], $input), '필드 확인');
@@ -141,7 +142,7 @@ class AuthController extends ApiController
         $email = $input['email'];
         $password = $input['password'];
         $passwordConfirm = $input['password_confirmation'];
-        
+
         if ($password !== $passwordConfirm) {
             return $this->showMessage('패스워드가 일치하지 않습니다', Response::HTTP_BAD_REQUEST);
         }
