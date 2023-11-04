@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Opinion;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Opinion\StoreOpinionRequest;
+use App\Jobs\SummarizeJob;
 use App\Models\Opinion;
 use App\Util\ArrayUtil;
 use Illuminate\Http\Request;
@@ -18,18 +19,19 @@ class OpinionController extends ApiController
         $input = $request->input();
         assert(ArrayUtil::existKeysStrictly(['topicId', 'title', 'content', 'agreeingType', 'user'], $input), '필드 확인');
 
-        $opinion = Opinion::create([
-            'topic_id' => $input['topicId'],
-            'title' => $input['title'],
-            'content' => $input['content'],
-            'agree_type' => $input['agreeingType'],
-            'user_id' => $input['user']->id,
-            'dislike' => 0,
-            'like' => 0,
-        ]);
-
         DB::beginTransaction();
         try {
+            $opinion = Opinion::create([
+                'topic_id' => $input['topicId'],
+                'title' => $input['title'],
+                'content' => $input['content'],
+                'agree_type' => $input['agreeingType'],
+                'user_id' => $input['user']->id,
+                'dislike' => 0,
+                'like' => 0,
+                'summary' => $input['content']
+            ]);
+
             $isExist = DB::table('participant_topic')->where('topic_id', $input['topicId'])->where('participant_id', $input['user']->id)->count();
             if (!$isExist) {
                 DB::table('participant_topic')->insert(['participant_id' => $input['user']->id, 'topic_id' => $input['topicId']]);
@@ -40,7 +42,10 @@ class OpinionController extends ApiController
 
                 DB::table('opinions_reference')->insert(['opinion_id' => $opinion->id, 'refer_to_id' => $addToId]);
             }
+
             DB::commit();
+
+            SummarizeJob::dispatch($input['content'], $opinion->id);
         } catch (e) {
             DB::rollBack();
         }
@@ -81,6 +86,8 @@ class OpinionController extends ApiController
         $opinion->content = $input['content'];
         $opinion->title = $input['title'];
         $opinion->saveOrFail();
+
+        SummarizeJob::dispatch($input['content'], $opinion->id);
 
         return $this->showOne($opinion);
     }
