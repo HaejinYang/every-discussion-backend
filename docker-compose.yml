@@ -7,7 +7,7 @@ services:
         volumes:
             - .:/var/www/html
             - /var/www/html/vendor
-        command: sh -c "composer install && apachectl -D FOREGROUND"
+        command: sh -c "composer install && (php artisan horizon &) && apachectl -D FOREGROUND"
         restart: always
     mysql:
         image: mysql:latest
