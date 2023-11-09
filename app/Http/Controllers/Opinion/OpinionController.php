@@ -58,10 +58,18 @@ class OpinionController extends ApiController
         return $this->showOne($opinion);
     }
 
-    public function delete(Opinion $opinion)
+    public function delete(Request $request, Opinion $opinion)
     {
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['user'], $input), '필드 확인');
+
         $userId = $opinion->user_id;
         $topicId = $opinion->topic_id;
+        $user = $input['user'];
+
+        if ($user->id !== $userId) {
+            return $this->showMessage('의견 삭제 권리 없음', Response::HTTP_FORBIDDEN);
+        }
 
         DB::beginTransaction();
         try {
@@ -82,6 +90,11 @@ class OpinionController extends ApiController
     public function update(Request $request, Opinion $opinion)
     {
         $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['user', 'content', 'title'], $input), '필드 확인');
+
+        if ($input['user']->id !== $opinion->user_id) {
+            return $this->showMessage('의견 수정 권리 없음', Response::HTTP_FORBIDDEN);
+        }
 
         $opinion->content = $input['content'];
         $opinion->title = $input['title'];
