@@ -43,7 +43,7 @@ Route::middleware(['auth.token', 'user.get'])->group(function () {
     Route::delete('/opinions/{opinion}', [OpinionController::class, 'delete']);
     Route::put('/opinions/{opinion}', [OpinionController::class, 'update']);
 
-    // 유저가 특정 토픽에 적은 모든 의견들 응답
+    // 유저가 특정 토픽에 적은 모든 의견들 조회
     Route::get('/users/{user}/topics/{topic}/opinions', UserTopicOpinionController::class);
 });
 
