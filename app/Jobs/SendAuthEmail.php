@@ -27,8 +27,8 @@ class SendAuthEmail implements ShouldQueue
      */
     public function handle(): void
     {
-        if (env('APP_ENV') === 'local') {
-            Mail::to('extension.master.91@gmail.com')->send(new AuthMail($this->email, $this->rememberToken));
+        if (config('app.env') === 'local') {
+            Mail::to(config('app.master_email'))->send(new AuthMail($this->email, $this->rememberToken));
         } else {
             Mail::to($this->email)->send(new AuthMail($this->email, $this->rememberToken));
         }
