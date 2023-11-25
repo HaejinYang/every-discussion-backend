@@ -6,6 +6,10 @@ use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
 
 return [
+    /**
+     * log level list
+     * emergency, alert, critical, error, warning, notice, info, debug.
+     */
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +58,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily'], // 스택 채널은 다른 채널들을 모아 한 번에 처리할 수 있다.
             'ignore_exceptions' => false,
         ],
 

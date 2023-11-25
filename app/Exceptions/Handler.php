@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
@@ -40,6 +41,8 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
+        Log::error($e->getMessage());
+
         if ($e instanceof ModelNotFoundException) {
             $model = strtolower(class_basename($e->getModel()));
 
