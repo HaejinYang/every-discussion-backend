@@ -17,13 +17,8 @@ class SummarizeJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public string $plainText;
-    public int $opinionId;
-
-    public function __construct(string $plainText, int $opinionId)
+    public function __construct(private string $plainText, private int $opinionId)
     {
-        $this->plainText = $plainText;
-        $this->opinionId = $opinionId;
     }
 
     /**

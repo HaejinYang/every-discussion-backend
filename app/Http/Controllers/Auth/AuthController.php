@@ -7,7 +7,7 @@ use App\Http\Requests\Auth\AuthChangePasswordRequest;
 use App\Http\Requests\Auth\AuthCheckDuplicateUserRequest;
 use App\Http\Requests\Auth\AuthLoginRequest;
 use App\Http\Requests\Auth\AuthRegisterRequest;
-use App\Mail\AuthMail;
+use App\Jobs\SendAuthEmail;
 use App\Mail\SendTokenForChangingPassword;
 use App\Models\Participant;
 use App\Models\User;
@@ -29,11 +29,7 @@ class AuthController extends ApiController
         $input['remember_token'] = Str::random(10);
 
         $user = User::create($input);
-        if (env('APP_ENV') === 'local') {
-            Mail::to('extension.master.91@gmail.com')->send(new AuthMail($user->email, $user->remember_token));
-        } else {
-            Mail::to($user->email)->send(new AuthMail($user->email, $user->remember_token));
-        }
+        SendAuthEmail::dispatch($user->email, $user->remember_token);
 
         return $this->showOne($user);
     }
