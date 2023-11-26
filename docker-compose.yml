@@ -4,9 +4,11 @@ services:
         build: ./docker/php/
         ports:
             - "0.0.0.0:${APP_PORT}:80"
+            - "0.0.0.0:${APP_PORT_SSL}:443"
         volumes:
             - .:/var/www/html
             - /var/www/html/vendor
+            - ./docker/ssl:/etc/ssl/docker
         command: sh -c "composer install && (php artisan horizon &) && apachectl -D FOREGROUND"
         restart: always
     mysql:
