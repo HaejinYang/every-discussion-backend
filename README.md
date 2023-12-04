@@ -10,7 +10,8 @@ API테스트용으로 Postman을 사용하였다.
 
 # 목업
 
-프로젝트 진행 전 구상을 위한 목업이다. 카카오 오븐으로 개발할 페이지를 구상했다.  자세한 내용은 다음 [링크](https://ovenapp.io/view/vHYglcf3PXrqDKcqUOXYsBKKf7CJflvs/OvHxh)에서 확인 가능하다.
+프로젝트 진행 전 구상을 위한 목업이다. 카카오 오븐으로 개발할 페이지를 구상했다. 자세한 내용은
+다음 [링크](https://ovenapp.io/view/vHYglcf3PXrqDKcqUOXYsBKKf7CJflvs/OvHxh)에서 확인 가능하다.
 ![목업](./reference/mockup.png)
 
 # ERD
@@ -25,7 +26,7 @@ API테스트용으로 Postman을 사용하였다.
 ### 토론 주제, 의견, 의견간 관계에 대한 REST API
 
 토론 주제, 의견 그리고 의견간 관계에 대한 REST API를 구현했다.
-이를 위해 라라벨 라우트를 기반으로 바인딩을 사용했다. 
+이를 위해 라라벨 라우트를 기반으로 바인딩을 사용했다.
 바인딩은 URI의 인자로 ID를 넘겨주고 핸들러의 파라미터에 모델을 명시하면 서비스 컨테이너가 모델을 주입해주는 피처이다.
 
 모델이 없을 경우를 대비하여 Exception에 ModelNotFoundException인 경우 HTTP_NOT_FOUND 코드를 리턴하도록 정의해주었다.
@@ -59,7 +60,7 @@ migration을 이용하여 테이블을 관리하고 factory를 이용하여 데�
 라라벨은 라라벨 Sail, homestead 등의 개발 환경 구축을 지원한다.
 Sail은 설치만 해보고 명령어만 써봐도 편한 것을 알 수 있었다.
 그러나, 이것을 이용하지 않고 개발 환경을 직접 구축하고 싶었다.
-라라벨에 익숙해질 수 있을 것이고, 서버, 디비 세팅을 하면서 웹 개발 자체에 익숙해지는 효과를 기대했다. 
+라라벨에 익숙해질 수 있을 것이고, 서버, 디비 세팅을 하면서 웹 개발 자체에 익숙해지는 효과를 기대했다.
 이전에 php-apache 도커 이미지를 기반으로 세팅해 본 경험이 있기에 할만하다고 생각했다.
 
 먼저 php-apache, mysql 기본 이미지를 기반으로 도커 파일을 생성하였다.
@@ -115,7 +116,18 @@ CMD ["apache2-foreground"]
 command: sh -c "composer install && apachectl -D FOREGROUND"
 ```
 
-### 문제 2. xdebug를 통한 라인 브레이크 디버깅(PHPStorm)
+### 문제 2. 아마존 라이트 세일에 배포
+
+#### 상황
+
+모두의 토론 백엔드는 도커 위에 개발 환경을 구축했다. php-apache 이미지를 기반으로 라라벨 웹 서버를 구동시키고, redis 이미지를 활용하여 job을 처리하고, mysql 이미지를 활용하여 데이터베이스를
+사용했다. 세 컨테이너를 관리하기 위하여 도커 컴포즈를 활용했다. 따라서 배포 역시 도커를 기반으로 하면 좋을 것이라고 생각하고 진행했다.
+
+#### 해결
+
+[다음 링크](https://crmerry.tistory.com/228)에서 정리 하였다.
+
+### 문제 3. xdebug를 통한 라인 브레이크 디버깅(PHPStorm)
 
 #### 상황
 
