@@ -20,7 +20,8 @@ class AuthMail extends Mailable
      */
     public function __construct(string $user, string $token)
     {
-        $this->url = "http://127.0.0.1:56000/verify?user={$user}&token={$token}";
+        $appUrl = config('app.url');
+        $this->url = "${appUrl}/verify?user={$user}&token={$token}";
     }
 
     /**
