@@ -1,12 +1,13 @@
 # 개요
 
-토론 웹 서비스 모두의 토론의 백엔드 레포지토리이다.
+토론 웹 서비스 모두의 토론의 백엔드 레포지토리이다. [실행링크](https://www.every-discussion.com:56003/)
+
 [프론트엔드 바로가기](https://github.com/HaejinYang/every-discussion-frontend)
 
 # 기술 스택
 
-Laravel, MySQL, Docker을 기반으로 진행하였다.
-API테스트용으로 Postman을 사용하였다.
+- Laravel, MySQL, Redis
+- AWS Lightsail, Docker
 
 # 목업
 
@@ -18,6 +19,15 @@ API테스트용으로 Postman을 사용하였다.
 
 프로젝트 설계를 위한 ERD이다. ERDCloud로 제작했다. 자세한 내용은 다음 [링크](https://www.erdcloud.com/d/BiBhWnCtC8YRWNjMJ)에서 확인할 수 있다.
 ![ERD](./reference/erd.png)
+
+# 배포
+
+[실행링크](https://www.every-discussion.com:56003/)
+
+모두의 토론 백엔드는 도커 위에 개발 환경을 구축했다. php-apache 이미지를 기반으로 라라벨 웹 서버를 구동시키고, redis 이미지를 활용하여 job을 처리하고, mysql 이미지를 활용하여 데이터베이스를
+사용했다. 세 컨테이너를 관리하기 위하여 도커 컴포즈를 활용했다. 따라서 배포 역시 도커를 기반으로 하면 좋을 것이라고 생각하고 진행했다.
+
+[배포 과정을 정리한 링크](https://crmerry.tistory.com/228)
 
 # 구현
 
