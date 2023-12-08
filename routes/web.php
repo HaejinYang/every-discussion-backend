@@ -26,8 +26,12 @@ Route::get('/', function () {
 Route::get('/verify', EmailAuthController::class);
 
 Route::prefix('/admin')->group(function () {
-    Route::get('dashboard', [AdminController::class, 'dashboard']);
-    Route::get('login', [AdminController::class, 'login']);
+    Route::match(['get', 'post'], 'login', [AdminController::class, 'login']);
+
+    Route::group(['middleware' => ['admin']], function () {
+        Route::get('dashboard', [AdminController::class, 'dashboard']);
+        Route::match(['get', 'post'], 'logout', [AdminController::class, 'logout']);
+    });
 });
 
 

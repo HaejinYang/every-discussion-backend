@@ -35,5 +35,7 @@ class DatabaseSeeder extends Seeder
         });
 
         OpinionReference::factory(100)->create();
+
+        $this->call([AdminSeeder::class]);
     }
 }
