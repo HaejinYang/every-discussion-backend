@@ -23,6 +23,11 @@ Route::get('/', function () {
 });
 
 Route::get('/verify', EmailAuthController::class);
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+});
+
 //
 //Route::get('/verify', function (Request $request) {
 //    $user = $request->input('user');
