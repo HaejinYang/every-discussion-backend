@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\EmailAuthController;
 use App\Mail\AuthMail;
 use Illuminate\Support\Facades\Mail;
@@ -24,9 +25,12 @@ Route::get('/', function () {
 
 Route::get('/verify', EmailAuthController::class);
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
+Route::prefix('/admin')->group(function () {
+    Route::get('dashboard', [AdminController::class, 'dashboard']);
+    Route::get('login', [AdminController::class, 'login']);
 });
+
+
 
 //
 //Route::get('/verify', function (Request $request) {
