@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\EmailAuthController;
 use App\Mail\AuthMail;
 use Illuminate\Support\Facades\Mail;
@@ -23,6 +24,19 @@ Route::get('/', function () {
 });
 
 Route::get('/verify', EmailAuthController::class);
+
+Route::prefix('/admin')->group(function () {
+    Route::match(['get', 'post'], 'login', [AdminController::class, 'login']);
+
+    Route::group(['middleware' => ['admin']], function () {
+        Route::get('dashboard', [AdminController::class, 'dashboard']);
+        Route::match(['get', 'post'], 'logout', [AdminController::class, 'logout']);
+        Route::get('users', [AdminController::class, 'users']);
+    });
+});
+
+
+
 //
 //Route::get('/verify', function (Request $request) {
 //    $user = $request->input('user');

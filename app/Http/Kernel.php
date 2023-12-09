@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Admin;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
@@ -11,7 +12,6 @@ use App\Http\Middleware\TokenBasedAuth;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\ValidateSignature;
-use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
@@ -59,7 +59,7 @@ class Kernel extends HttpKernel
             AddQueuedCookiesToResponse::class,
             StartSession::class,
             ShareErrorsFromSession::class,
-            VerifyCsrfToken::class,
+            //VerifyCsrfToken::class,
             SubstituteBindings::class,
         ],
 
@@ -91,5 +91,6 @@ class Kernel extends HttpKernel
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
+        'admin' => Admin::class,
     ];
 }
