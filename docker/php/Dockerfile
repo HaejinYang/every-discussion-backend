@@ -21,8 +21,8 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 # change crt and key by mine
-RUN sed -i '/SSLCertificateFile.*snakeoil\.pem/c\SSLCertificateFile /etc/ssl/docker/local-docker.crt' /etc/apache2/sites-available/default-ssl.conf
-RUN sed -i '/SSLCertificateKeyFile.*snakeoil\.key/c\SSLCertificateKeyFile /etc/ssl/docker/local-docker.key' /etc/apache2/sites-available/default-ssl.conf
+RUN sed -i '/SSLCertificateFile.*snakeoil\.pem/c\SSLCertificateFile /etc/ssl/docker/fullchain.pem' /etc/apache2/sites-available/default-ssl.conf
+RUN sed -i '/SSLCertificateKeyFile.*snakeoil\.key/c\SSLCertificateKeyFile /etc/ssl/docker/privkey.pem' /etc/apache2/sites-available/default-ssl.conf
 RUN a2ensite default-ssl
 WORKDIR /var/www/html
 
