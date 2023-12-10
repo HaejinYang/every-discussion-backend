@@ -32,6 +32,8 @@ Route::prefix('/admin')->group(function () {
         Route::get('dashboard', [AdminController::class, 'dashboard']);
         Route::match(['get', 'post'], 'logout', [AdminController::class, 'logout']);
         Route::get('users', [AdminController::class, 'users']);
+        Route::put('users', [AdminController::class, 'userUpdate']);
+        Route::delete('users', [AdminController::class, 'userDelete']);
     });
 });
 
