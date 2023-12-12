@@ -13,7 +13,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>유저 정보</h1>
+                        <h1>의견 정보</h1>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -48,39 +48,48 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>VerifiedAt</th>
-                                        <th>role</th>
-                                        <th>CreatedAt</th>
-                                        <th>UpdatedAt</th>
-                                        <th>DeletedAt</th>
+                                        <th>TopicId</th>
+                                        <th>UserId</th>
+                                        <th>Title</th>
+                                        <th>AgreeType</th>
+                                        <th>Content</th>
+                                        <th>Summary</th>
+                                        <th>Like</th>
+                                        <td>Dislike</td>
+                                        <td>CreatedAt</td>
+                                        <td>UpdatedAt</td>
+                                        <td>DeletedAt</td>
                                         <td>수정</td>
                                         <td>삭제</td>
                                     </tr>
                                     </thead>
                                     <tbody onclick="onClickAction(event)">
-                                    @foreach ($users as $user)
+                                    @foreach ($opinions as $opinion)
                                         <tr>
-                                            <td>{{ $user->id }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->email_verified_at }}</td>
-                                            <td>{{ $user->role }}</td>
-                                            <td>{{ $user->created_at }}</td>
-                                            <td>{{ $user->updated_at }}</td>
-                                            <td>{{ $user->deleted_at }}</td>
+                                            <td>{{ $opinion->id }}</td>
+                                            <td>{{ $opinion->topic_id }}</td>
+                                            <td>{{ $opinion->user_id }}</td>
+                                            <td>{{ $opinion->title }}</td>
+                                            <td>{{ $opinion->agree_type }}</td>
+                                            <td>{{ $opinion->content }}</td>
+                                            <td>{{ $opinion->summary }}</td>
+                                            <td>{{ $opinion->like }}</td>
+                                            <td>{{ $opinion->dislike }}</td>
+                                            <td>{{ $opinion->created_at }}</td>
+                                            <td>{{ $opinion->updated_at }}</td>
+                                            <td>{{ $opinion->deleted_at }}</td>
                                             <td>
                                                 <button type="submit" class="btn btn-primary btn-block"
                                                         data-toggle="modal" data-target="#modify-user-modal"
-                                                        data-id="{{ $user->id }}" data-type="modify"
-                                                        data-name="{{$user->name}}" data-role="{{$user->role}}">
+                                                        data-id="{{ $opinion->id }}" data-type="modify"
+                                                        data-title="{{$opinion->title}}"
+                                                        data-content="{{$opinion->content}}">
                                                     수정
                                                 </button>
                                             </td>
                                             <td>
                                                 <button type="submit" class="btn btn-danger btn-block"
-                                                        data-id="{{ $user->id }}" data-type="delete">삭제
+                                                        data-id="{{ $opinion->id }}" data-type="delete">삭제
                                                 </button>
                                             </td>
                                         </tr>
@@ -89,13 +98,17 @@
                                     <tfoot>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>VerifiedAt</th>
-                                        <th>role</th>
-                                        <th>CreatedAt</th>
-                                        <th>UpdatedAt</th>
-                                        <th>DeletedAt</th>
+                                        <th>TopicId</th>
+                                        <th>UserId</th>
+                                        <th>Title</th>
+                                        <th>AgreeType</th>
+                                        <th>Content</th>
+                                        <th>Summary</th>
+                                        <th>Like</th>
+                                        <td>Dislike</td>
+                                        <td>CreatedAt</td>
+                                        <td>UpdatedAt</td>
+                                        <td>DeletedAt</td>
                                         <td>수정</td>
                                         <td>삭제</td>
                                     </tr>
@@ -120,7 +133,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">유저 수정</h5>
+                    <h5 class="modal-title">의견 수정</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -128,22 +141,22 @@
                 <div class="modal-body">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">이름</span>
+                            <span class="input-group-text" id="inputGroup-sizing-default">타이틀</span>
                         </div>
-                        <input id="user-name" type="text" class="form-control" aria-label="Default"
+                        <input id="opinion-title" type="text" class="form-control" aria-label="Default"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">역할</span>
+                            <span class="input-group-text" id="inputGroup-sizing-default">내용</span>
                         </div>
-                        <input id="user-role" type="text" class="form-control" aria-label="Default"
+                        <input id="opinion-content" type="text" class="form-control" aria-label="Default"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="onClickModifyUser()">적용</button>
+                    <button type="button" class="btn btn-primary" onclick="onClickModifyOpinion()">적용</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                 </div>
             </div>
@@ -167,16 +180,16 @@
     <script src="{{ url('admin/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <!-- Page specific script -->
     <script>
-        let targetUserId = -1;
+        let targetTopicId = -1;
 
-        function onClickDeleteUser(id) {
+        function onClickDeleteOpinion(id) {
             if (!id || id === -1) {
                 return;
             }
 
             $.ajax({
                 type: 'delete',
-                url: '/admin/users',
+                url: '/admin/opinions',
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -192,19 +205,19 @@
             })
         }
 
-        function onClickModifyUser() {
-            const name = $('#user-name').val();
-            const role = $('#user-role').val();
-            const id = targetUserId;
+        function onClickModifyOpinion() {
+            const title = $('#opinion-title').val();
+            const content = $('#opinion-content').val();
+            const id = targetTopicId;
             $.ajax({
                 type: 'put',
-                url: '/admin/users',
+                url: '/admin/opinions',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 data: JSON.stringify({
-                    name,
-                    role,
+                    title,
+                    content,
                     id
                 }),
                 success: function (data) {
@@ -222,16 +235,16 @@
                 return;
             }
 
-            targetUserId = target.dataset.id;
+            targetTopicId = target.dataset.id;
             const type = target.dataset.type;
 
             switch (type) {
                 case 'modify':
-                    $('#user-name').val(target.dataset.name);
-                    $('#user-role').val(target.dataset.role);
+                    $('#opinion-title').val(target.dataset.title);
+                    $('#opinion-content').val(target.dataset.content);
                     break;
                 case 'delete':
-                    onClickDeleteUser(target.dataset.id);
+                    onClickDeleteOpinion(target.dataset.id);
                     break;
                 default:
                     alert("지정한 액션 타입이 아닙니다.");

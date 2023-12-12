@@ -31,9 +31,21 @@ Route::prefix('/admin')->group(function () {
     Route::group(['middleware' => ['admin']], function () {
         Route::get('dashboard', [AdminController::class, 'dashboard']);
         Route::match(['get', 'post'], 'logout', [AdminController::class, 'logout']);
+
+        // 유저
         Route::get('users', [AdminController::class, 'users']);
         Route::put('users', [AdminController::class, 'userUpdate']);
         Route::delete('users', [AdminController::class, 'userDelete']);
+
+        // 토론 주제
+        Route::get('topics', [AdminController::class, 'topics']);
+        Route::put('topics', [AdminController::class, 'topicUpdate']);
+        Route::delete('topics', [AdminController::class, 'topicDelete']);
+
+        // 의견
+        Route::get('opinions', [AdminController::class, 'opinions']);
+        Route::put('opinions', [AdminController::class, 'opinionUpdate']);
+        Route::delete('opinions', [AdminController::class, 'opinionDelete']);
     });
 });
 

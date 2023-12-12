@@ -13,7 +13,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>유저 정보</h1>
+                        <h1>토론 정보</h1>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -35,7 +35,7 @@
                                                onkeydown="onKeyDownSearch(event)"
                                         >
                                         <div class="input-group-append">
-                                            <button class="btn btn-sidebar" onclick="onClickUserSearch()">
+                                            <button class="btn btn-sidebar" onclick="onClickTopicSearch()">
                                                 <i class="fas fa-search fa-fw"></i>
                                             </button>
                                         </div>
@@ -44,14 +44,13 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="users" class="table table-bordered table-hover">
+                                <table id="topics" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>VerifiedAt</th>
-                                        <th>role</th>
+                                        <th>UserId</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
                                         <th>CreatedAt</th>
                                         <th>UpdatedAt</th>
                                         <th>DeletedAt</th>
@@ -60,27 +59,27 @@
                                     </tr>
                                     </thead>
                                     <tbody onclick="onClickAction(event)">
-                                    @foreach ($users as $user)
+                                    @foreach ($topics as $topic)
                                         <tr>
-                                            <td>{{ $user->id }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->email_verified_at }}</td>
-                                            <td>{{ $user->role }}</td>
-                                            <td>{{ $user->created_at }}</td>
-                                            <td>{{ $user->updated_at }}</td>
-                                            <td>{{ $user->deleted_at }}</td>
+                                            <td>{{ $topic->id }}</td>
+                                            <td>{{ $topic->user_id }}</td>
+                                            <td>{{ $topic->title }}</td>
+                                            <td>{{ $topic->description }}</td>
+                                            <td>{{ $topic->created_at }}</td>
+                                            <td>{{ $topic->updated_at }}</td>
+                                            <td>{{ $topic->deleted_at }}</td>
                                             <td>
                                                 <button type="submit" class="btn btn-primary btn-block"
                                                         data-toggle="modal" data-target="#modify-user-modal"
-                                                        data-id="{{ $user->id }}" data-type="modify"
-                                                        data-name="{{$user->name}}" data-role="{{$user->role}}">
+                                                        data-id="{{ $topic->id }}" data-type="modify"
+                                                        data-title="{{$topic->title}}"
+                                                        data-description="{{$topic->description}}">
                                                     수정
                                                 </button>
                                             </td>
                                             <td>
                                                 <button type="submit" class="btn btn-danger btn-block"
-                                                        data-id="{{ $user->id }}" data-type="delete">삭제
+                                                        data-id="{{ $topic->id }}" data-type="delete">삭제
                                                 </button>
                                             </td>
                                         </tr>
@@ -89,10 +88,9 @@
                                     <tfoot>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>VerifiedAt</th>
-                                        <th>role</th>
+                                        <th>UserId</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
                                         <th>CreatedAt</th>
                                         <th>UpdatedAt</th>
                                         <th>DeletedAt</th>
@@ -120,7 +118,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">유저 수정</h5>
+                    <h5 class="modal-title">토론 수정</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -128,22 +126,22 @@
                 <div class="modal-body">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">이름</span>
+                            <span class="input-group-text" id="inputGroup-sizing-default">타이틀</span>
                         </div>
-                        <input id="user-name" type="text" class="form-control" aria-label="Default"
+                        <input id="topic-title" type="text" class="form-control" aria-label="Default"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">역할</span>
+                            <span class="input-group-text" id="inputGroup-sizing-default">설명</span>
                         </div>
-                        <input id="user-role" type="text" class="form-control" aria-label="Default"
+                        <input id="topic-description" type="text" class="form-control" aria-label="Default"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="onClickModifyUser()">적용</button>
+                    <button type="button" class="btn btn-primary" onclick="onClickModifyTopic()">적용</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                 </div>
             </div>
@@ -167,16 +165,16 @@
     <script src="{{ url('admin/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <!-- Page specific script -->
     <script>
-        let targetUserId = -1;
+        let targetTopicId = -1;
 
-        function onClickDeleteUser(id) {
+        function onClickDeleteTopic(id) {
             if (!id || id === -1) {
                 return;
             }
 
             $.ajax({
                 type: 'delete',
-                url: '/admin/users',
+                url: '/admin/topics',
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -192,19 +190,19 @@
             })
         }
 
-        function onClickModifyUser() {
-            const name = $('#user-name').val();
-            const role = $('#user-role').val();
-            const id = targetUserId;
+        function onClickModifyTopic() {
+            const title = $('#topic-title').val();
+            const desc = $('#topic-description').val();
+            const id = targetTopicId;
             $.ajax({
                 type: 'put',
-                url: '/admin/users',
+                url: '/admin/topics',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 data: JSON.stringify({
-                    name,
-                    role,
+                    title,
+                    description: desc,
                     id
                 }),
                 success: function (data) {
@@ -222,16 +220,16 @@
                 return;
             }
 
-            targetUserId = target.dataset.id;
+            targetTopicId = target.dataset.id;
             const type = target.dataset.type;
 
             switch (type) {
                 case 'modify':
-                    $('#user-name').val(target.dataset.name);
-                    $('#user-role').val(target.dataset.role);
+                    $('#topic-title').val(target.dataset.title);
+                    $('#topic-description').val(target.dataset.description);
                     break;
                 case 'delete':
-                    onClickDeleteUser(target.dataset.id);
+                    onClickDeleteTopic(target.dataset.id);
                     break;
                 default:
                     alert("지정한 액션 타입이 아닙니다.");
@@ -244,10 +242,10 @@
                 return;
             }
 
-            onClickUserSearch();
+            onClickTopicSearch();
         }
 
-        function onClickUserSearch() {
+        function onClickTopicSearch() {
             const searchText = $('#search-user').val();
             if (!searchText || searchText.length === 0) {
                 alert("검색 키워드가 없습니다.");
@@ -264,7 +262,7 @@
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
-            $('#users').DataTable({
+            $('#topics').DataTable({
                 "paging": true,
                 "lengthChange": false,
                 "searching": true,
