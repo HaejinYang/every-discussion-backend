@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Opinion;
 use App\Models\Topic;
 use App\Models\User;
 use App\Traits\ApiResponser;
@@ -136,6 +137,51 @@ class AdminController extends Controller
 
         $topic = Topic::where('id', $id)->firstOrFail();
         $topic->delete();
+
+        return $this->showMessage("success");
+    }
+
+    public function opinions(Request $request)
+    {
+        $input = $request->input();
+        $opinions = null;
+        if (isset($input['search'])) {
+            $keyword = $input['search'];
+            $opinions = Opinion::where('title', 'like', "%{$keyword}%")
+                ->orWhere('content', 'like', "%{$keyword}%")
+                ->withTrashed()
+                ->get();
+        }
+
+        if ($opinions === null) {
+            $opinions = Opinion::withTrashed()->get();
+        }
+
+        return view('admin.opinions', ['opinions' => $opinions]);
+    }
+
+    public function opinionUpdate(Request $request)
+    {
+        $input = $request->input();
+        $title = $input['title'];
+        $content = $input['content'];
+        $id = $input['id'];
+
+        $opinion = Opinion::where('id', $id)->firstOrFail();
+        $opinion->title = $title;
+        $opinion->content = $content;
+        $opinion->save();
+
+        return $this->showMessage("success");
+    }
+
+    public function opinionDelete(Request $request)
+    {
+        $input = $request->input();
+        $id = $input['id'];
+
+        $opinion = Opinion::where('id', $id)->firstOrFail();
+        $opinion->delete();
 
         return $this->showMessage("success");
     }

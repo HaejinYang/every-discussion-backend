@@ -13,7 +13,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>토론 정보</h1>
+                        <h1>의견 정보</h1>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -35,7 +35,7 @@
                                                onkeydown="onKeyDownSearch(event)"
                                         >
                                         <div class="input-group-append">
-                                            <button class="btn btn-sidebar" onclick="onClickTopicSearch()">
+                                            <button class="btn btn-sidebar" onclick="onClickUserSearch()">
                                                 <i class="fas fa-search fa-fw"></i>
                                             </button>
                                         </div>
@@ -44,42 +44,52 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="topics" class="table table-bordered table-hover">
+                                <table id="users" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>TopicId</th>
                                         <th>UserId</th>
                                         <th>Title</th>
-                                        <th>Description</th>
-                                        <th>CreatedAt</th>
-                                        <th>UpdatedAt</th>
-                                        <th>DeletedAt</th>
+                                        <th>AgreeType</th>
+                                        <th>Content</th>
+                                        <th>Summary</th>
+                                        <th>Like</th>
+                                        <td>Dislike</td>
+                                        <td>CreatedAt</td>
+                                        <td>UpdatedAt</td>
+                                        <td>DeletedAt</td>
                                         <td>수정</td>
                                         <td>삭제</td>
                                     </tr>
                                     </thead>
                                     <tbody onclick="onClickAction(event)">
-                                    @foreach ($topics as $topic)
+                                    @foreach ($opinions as $opinion)
                                         <tr>
-                                            <td>{{ $topic->id }}</td>
-                                            <td>{{ $topic->user_id }}</td>
-                                            <td>{{ $topic->title }}</td>
-                                            <td>{{ $topic->description }}</td>
-                                            <td>{{ $topic->created_at }}</td>
-                                            <td>{{ $topic->updated_at }}</td>
-                                            <td>{{ $topic->deleted_at }}</td>
+                                            <td>{{ $opinion->id }}</td>
+                                            <td>{{ $opinion->topic_id }}</td>
+                                            <td>{{ $opinion->user_id }}</td>
+                                            <td>{{ $opinion->title }}</td>
+                                            <td>{{ $opinion->agree_type }}</td>
+                                            <td>{{ $opinion->content }}</td>
+                                            <td>{{ $opinion->summary }}</td>
+                                            <td>{{ $opinion->like }}</td>
+                                            <td>{{ $opinion->dislike }}</td>
+                                            <td>{{ $opinion->created_at }}</td>
+                                            <td>{{ $opinion->updated_at }}</td>
+                                            <td>{{ $opinion->deleted_at }}</td>
                                             <td>
                                                 <button type="submit" class="btn btn-primary btn-block"
                                                         data-toggle="modal" data-target="#modify-user-modal"
-                                                        data-id="{{ $topic->id }}" data-type="modify"
-                                                        data-title="{{$topic->title}}"
-                                                        data-description="{{$topic->description}}">
+                                                        data-id="{{ $opinion->id }}" data-type="modify"
+                                                        data-title="{{$opinion->title}}"
+                                                        data-content="{{$opinion->content}}">
                                                     수정
                                                 </button>
                                             </td>
                                             <td>
                                                 <button type="submit" class="btn btn-danger btn-block"
-                                                        data-id="{{ $topic->id }}" data-type="delete">삭제
+                                                        data-id="{{ $opinion->id }}" data-type="delete">삭제
                                                 </button>
                                             </td>
                                         </tr>
@@ -88,12 +98,17 @@
                                     <tfoot>
                                     <tr>
                                         <th>ID</th>
+                                        <th>TopicId</th>
                                         <th>UserId</th>
                                         <th>Title</th>
-                                        <th>Description</th>
-                                        <th>CreatedAt</th>
-                                        <th>UpdatedAt</th>
-                                        <th>DeletedAt</th>
+                                        <th>AgreeType</th>
+                                        <th>Content</th>
+                                        <th>Summary</th>
+                                        <th>Like</th>
+                                        <td>Dislike</td>
+                                        <td>CreatedAt</td>
+                                        <td>UpdatedAt</td>
+                                        <td>DeletedAt</td>
                                         <td>수정</td>
                                         <td>삭제</td>
                                     </tr>
@@ -118,7 +133,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">토론 수정</h5>
+                    <h5 class="modal-title">의견 수정</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -128,20 +143,20 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">타이틀</span>
                         </div>
-                        <input id="topic-title" type="text" class="form-control" aria-label="Default"
+                        <input id="opinion-title" type="text" class="form-control" aria-label="Default"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">설명</span>
+                            <span class="input-group-text" id="inputGroup-sizing-default">내용</span>
                         </div>
-                        <input id="topic-description" type="text" class="form-control" aria-label="Default"
+                        <input id="opinion-content" type="text" class="form-control" aria-label="Default"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="onClickModifyTopic()">적용</button>
+                    <button type="button" class="btn btn-primary" onclick="onClickModifyOpinion()">적용</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                 </div>
             </div>
@@ -167,14 +182,14 @@
     <script>
         let targetTopicId = -1;
 
-        function onClickDeleteTopic(id) {
+        function onClickDeleteOpinion(id) {
             if (!id || id === -1) {
                 return;
             }
 
             $.ajax({
                 type: 'delete',
-                url: '/admin/topics',
+                url: '/admin/opinions',
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -190,19 +205,19 @@
             })
         }
 
-        function onClickModifyTopic() {
-            const title = $('#topic-title').val();
-            const desc = $('#topic-description').val();
+        function onClickModifyOpinion() {
+            const title = $('#opinion-title').val();
+            const content = $('#opinion-content').val();
             const id = targetTopicId;
             $.ajax({
                 type: 'put',
-                url: '/admin/topics',
+                url: '/admin/opinions',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 data: JSON.stringify({
                     title,
-                    description: desc,
+                    content,
                     id
                 }),
                 success: function (data) {
@@ -225,11 +240,11 @@
 
             switch (type) {
                 case 'modify':
-                    $('#topic-title').val(target.dataset.title);
-                    $('#topic-description').val(target.dataset.description);
+                    $('#opinion-title').val(target.dataset.title);
+                    $('#opinion-content').val(target.dataset.content);
                     break;
                 case 'delete':
-                    onClickDeleteTopic(target.dataset.id);
+                    onClickDeleteOpinion(target.dataset.id);
                     break;
                 default:
                     alert("지정한 액션 타입이 아닙니다.");
@@ -242,10 +257,10 @@
                 return;
             }
 
-            onClickTopicSearch();
+            onClickUserSearch();
         }
 
-        function onClickTopicSearch() {
+        function onClickUserSearch() {
             const searchText = $('#search-user').val();
             if (!searchText || searchText.length === 0) {
                 alert("검색 키워드가 없습니다.");
@@ -262,7 +277,7 @@
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
-            $('#topics').DataTable({
+            $('#users').DataTable({
                 "paging": true,
                 "lengthChange": false,
                 "searching": true,
