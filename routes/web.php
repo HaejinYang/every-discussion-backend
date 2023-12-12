@@ -34,6 +34,9 @@ Route::prefix('/admin')->group(function () {
         Route::get('users', [AdminController::class, 'users']);
         Route::put('users', [AdminController::class, 'userUpdate']);
         Route::delete('users', [AdminController::class, 'userDelete']);
+        Route::get('topics', [AdminController::class, 'topics']);
+        Route::put('topics', [AdminController::class, 'topicUpdate']);
+        Route::delete('topics', [AdminController::class, 'topicDelete']);
     });
 });
 

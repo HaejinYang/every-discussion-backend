@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Topic;
 use App\Models\User;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
@@ -86,6 +87,55 @@ class AdminController extends Controller
 
         $user = User::where('id', $id)->firstOrFail();
         $user->delete();
+
+        return $this->showMessage("success");
+    }
+
+    public function topics(Request $request)
+    {
+        $input = $request->input();
+        $topics = null;
+        if (isset($input['search'])) {
+            $keyword = $input['search'];
+            $users = Topic::where('title', 'like', "%{$keyword}%")
+                ->orWhere('description', 'like', "%{$keyword}%")
+                ->withTrashed()
+                ->get();
+        }
+
+        if ($topics === null) {
+            $topics = Topic::withTrashed()->get();
+        }
+
+        return view('admin.topics', ['topics' => $topics]);
+    }
+
+    public function topicUpdate(Request $request)
+    {
+        $input = $request->input();
+        $title = $input['title'];
+        $description = $input['description'];
+        $id = $input['id'];
+        $count = Topic::where('title', $title)->count();
+        if ($count === 0) {
+            $topic = Topic::where('id', $id)->firstOrFail();
+            $topic->title = $title;
+            $topic->description = $description;
+            $topic->save();
+
+            return $this->showMessage("success");
+        }
+
+        return $this->error("failed");
+    }
+
+    public function topicDelete(Request $request)
+    {
+        $input = $request->input();
+        $id = $input['id'];
+
+        $topic = Topic::where('id', $id)->firstOrFail();
+        $topic->delete();
 
         return $this->showMessage("success");
     }
