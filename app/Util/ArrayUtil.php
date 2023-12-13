@@ -10,8 +10,12 @@ class ArrayUtil
      * @param array $array 키가 있는지 확인할 배열
      * @return bool
      */
-    public static function existKeys(array $keys, array $array)
+    public static function existKeys(array $keys, array $array): bool
     {
+        if (empty($keys) || empty($array)) {
+            return false;
+        }
+
         foreach ($keys as $key) {
             if (!array_key_exists($key, $array)) {
                 return false;
@@ -27,8 +31,12 @@ class ArrayUtil
      * @param array $array 키가 있는지 확인할 배열
      * @return bool
      */
-    public static function existKeysStrictly(array $keys, array $array)
+    public static function existKeysStrictly(array $keys, array $array): bool
     {
+        if (empty($keys) || empty($array)) {
+            return false;
+        }
+
         foreach ($keys as $key) {
             if (!isset($array[$key])) {
                 return false;
