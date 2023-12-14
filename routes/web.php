@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\EmailAuthController;
-use App\Mail\AuthMail;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,14 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    Mail::to('extension.master.91@gmail.com')->send(new AuthMail());
-
-    return view('welcome');
-});
-
+// 이메일 인증
 Route::get('/verify', EmailAuthController::class);
 
+// 관리자
 Route::prefix('/admin')->group(function () {
     Route::match(['get', 'post'], 'login', [AdminController::class, 'login']);
 
@@ -48,13 +42,3 @@ Route::prefix('/admin')->group(function () {
         Route::delete('opinions', [AdminController::class, 'opinionDelete']);
     });
 });
-
-
-
-//
-//Route::get('/verify', function (Request $request) {
-//    $user = $request->input('user');
-//    $token = $request->input('token');
-//
-//    return view('mail.verify', ['user' => $user, 'token' => $token]);
-//});
