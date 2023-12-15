@@ -64,7 +64,9 @@ Route::post('/auth/password', [AuthController::class, 'changePassword']);
 Route::apiResource('topics', TopicController::class)->only('index', 'show');
 
 // 특정 토픽에 속한 의견들을 보여줌
-Route::get('topics/{topic}/opinions', TopicOpinionController::class);
+Route::get('topics/{topic}/opinions', [TopicOpinionController::class, 'index']);
+Route::get('topics/{id}/graph', [TopicOpinionController::class, 'graph']);
+
 
 // 의견 가져오기
 Route::get('opinions/{opinion}', [OpinionController::class, 'show']);
