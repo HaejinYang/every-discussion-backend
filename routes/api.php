@@ -20,12 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
-
-// need auth
+// 사용자 인증 필요
 Route::middleware(['auth.token', 'user.get'])->group(function () {
     // 유저 로그아웃, 삭제
     Route::post('/auth/logout', [AuthController::class, 'logout']);
@@ -59,7 +54,6 @@ Route::get('/auth/password/token', [AuthController::class, 'sendTokenForChanging
 Route::post('/auth/password/token', [AuthController::class, 'verifyTokenForChangingPassword']);
 Route::post('/auth/password', [AuthController::class, 'changePassword']);
 
-
 // 토픽을 보여줌
 Route::apiResource('topics', TopicController::class)->only('index', 'show');
 
@@ -67,12 +61,8 @@ Route::apiResource('topics', TopicController::class)->only('index', 'show');
 Route::get('topics/{topic}/opinions', [TopicOpinionController::class, 'index']);
 Route::get('topics/{id}/graph', [TopicOpinionController::class, 'graph']);
 
-
 // 의견 가져오기
 Route::get('opinions/{opinion}', [OpinionController::class, 'show']);
-
-// 개발중 테스트용
-// Route::post('test/test', TestController::class);
 
 // fallback은 라우터 가장 하단에 있어야 한다.
 Route::fallback(function () {
