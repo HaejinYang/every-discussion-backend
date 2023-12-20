@@ -13,7 +13,7 @@ class Summarizer
             'messages' => [
                 [
                     "role" => "system",
-                    "content" => "Summarize content you are provided with for a second-grade student  with 20 words limit"
+                    "content" => "Summarize content you are provided with for a second-grade student with 20 words limit by content language"
                 ],
                 [
                     "role" => "user",
