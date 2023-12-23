@@ -108,7 +108,7 @@ class AuthController extends ApiController
         $user->saveOrFail();
 
         if (env('APP_ENV') === 'local') {
-            Mail::to('extension.master.91@gmail.com')->send(new SendTokenForChangingPassword($token));
+            Mail::to(config('app.master_email'))->send(new SendTokenForChangingPassword($token));
         } else {
             Mail::to($user->email)->send(new SendTokenForChangingPassword($token));
         }
@@ -126,7 +126,7 @@ class AuthController extends ApiController
 
         User::where('email', $email)->where('remember_token', $token)->firstOrFail();
 
-        return $this->showMessage('success');
+        return $this->showMessage('인증 성공');
     }
 
     public function changePassword(AuthChangePasswordRequest $request)
@@ -148,6 +148,21 @@ class AuthController extends ApiController
         $user->password = $newPassword;
         $user->saveOrFail();
 
-        return $this->showMessage('success');
+        return $this->showMessage('변경 성공');
+    }
+
+    public function resendAuthEmail(Request $request)
+    {
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['email'], $input), '필드 확인');
+
+        $email = $input['email'];
+
+        $user = User::where('email', $email)->where('email_verified_at', null)->firstOrFail();
+        $user['remember_token'] = Str::random(10);
+        $user->save();
+        SendAuthEmail::dispatch($user->email, $user->remember_token);
+
+        return $this->showMessage("재전송 성공");
     }
 }
