@@ -9,7 +9,7 @@ services:
             - .:/var/www/html
             - /var/www/html/vendor
             - ./docker/ssl:/etc/ssl/docker
-        command: sh -c "composer install && (php artisan horizon &) && apachectl -D FOREGROUND"
+        command: sh -c "composer install && (php artisan horizon &) && (php artisan schedule:work &) && apachectl -D FOREGROUND"
         restart: always
     mysql:
         image: mysql:latest
