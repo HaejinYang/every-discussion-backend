@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,9 +14,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
         $schedule->call(function () {
-            DB::table('users')->where('id', '>', 100)->delete();
+            $numDeleted = DB::table('users')->where('id', '>', 100)->delete();
+            Log::channel('schedule')->info("deleted users count : $numDeleted");
         })->daily();
     }
 

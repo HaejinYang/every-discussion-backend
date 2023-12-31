@@ -20,13 +20,12 @@ class TopicController extends ApiController
         if (is_null($keyword)) {
             $topicsPaginator = TopTopicsService::getTopTopicsWithPagination($perPage);
 
-            return $this->showAll($topicsPaginator)->withCookie('testkey', 'testvalue', 1);
+            return $this->showAll($topicsPaginator);
         }
 
         $topicsPaginator = TopTopicsService::getTopTopicsWithKeyword($keyword, $perPage);
 
         return $this->showAll($topicsPaginator);
-
     }
 
     public function store(StoreTopicRequest $request)
@@ -46,15 +45,5 @@ class TopicController extends ApiController
     public function show(Topic $topic)
     {
         return $this->showOne($topic);
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
     }
 }
