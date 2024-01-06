@@ -1,5 +1,8 @@
 FROM php:8.2-apache
 
+ARG APP_ENV
+ENV APP_ENV=${APP_ENV}
+
 RUN apt-get update && \
     apt-get install -y \
     libzip-dev \
@@ -15,6 +18,9 @@ RUN pecl install redis
 RUN docker-php-ext-install pdo_mysql zip opcache curl pcntl
 RUN docker-php-ext-enable pdo_mysql zip opcache curl pcntl redis
 COPY conf.d /usr/local/etc/php/conf.d
+RUN if [ "$APP_ENV" = "production" ]; then \
+        rm -f /usr/local/etc/php/conf.d/xdebug.ini; \
+    fi
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
@@ -26,6 +32,7 @@ RUN sed -i '/SSLCertificateKeyFile.*snakeoil\.key/c\SSLCertificateKeyFile /etc/s
 RUN a2ensite default-ssl
 WORKDIR /var/www/html
 
+# 볼륨 마운팅후 composer install 필요. => docker-compose.yml의 command로 해결
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# 볼륨 마운팅후 composer install 필요. => docker-compose.yml의 command로 해결
+
