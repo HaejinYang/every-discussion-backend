@@ -1,7 +1,5 @@
 FROM php:8.2-apache
-
-ARG APP_ENV
-ENV APP_ENV=${APP_ENV}
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN apt-get update && \
     apt-get install -y \
@@ -18,9 +16,6 @@ RUN pecl install redis
 RUN docker-php-ext-install pdo_mysql zip opcache curl pcntl
 RUN docker-php-ext-enable pdo_mysql zip opcache curl pcntl redis
 COPY conf.d /usr/local/etc/php/conf.d
-RUN if [ "$APP_ENV" = "production" ]; then \
-        rm -f /usr/local/etc/php/conf.d/xdebug.ini; \
-    fi
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
