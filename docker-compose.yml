@@ -1,11 +1,7 @@
 version: "1"
 services:
     webserver:
-        build:
-            context: ./docker/php
-            dockerfile: Dockerfile
-            args:
-                APP_ENV: ${APP_ENV}
+        build: docker/php
         ports:
             - "0.0.0.0:${APP_PORT}:80"
             - "0.0.0.0:${APP_PORT_SSL}:443"
@@ -13,7 +9,7 @@ services:
             - .:/var/www/html
             - /var/www/html/vendor
             - ./docker/ssl:/etc/ssl/docker
-        command: sh -c "composer install && (php artisan horizon &) && (php artisan schedule:work &) && apachectl -D FOREGROUND"
+        command: sh -c "./build.sh && composer install && (php artisan horizon &) && (php artisan schedule:work &) && apachectl -D FOREGROUND"
         restart: always
     mysql:
         image: mysql:latest
