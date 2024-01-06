@@ -1,7 +1,11 @@
 version: "1"
 services:
     webserver:
-        build: ./docker/php/
+        build:
+            context: ./docker/php
+            dockerfile: Dockerfile
+            args:
+                APP_ENV: ${APP_ENV}
         ports:
             - "0.0.0.0:${APP_PORT}:80"
             - "0.0.0.0:${APP_PORT_SSL}:443"
