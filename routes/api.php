@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\KakaoLoginController;
 use App\Http\Controllers\Opinion\OpinionController;
 use App\Http\Controllers\Topic\TopicController;
 use App\Http\Controllers\Topic\TopicOpinionController;
@@ -55,6 +56,9 @@ Route::get('/auth/password/token', [AuthController::class, 'sendTokenForChanging
 Route::post('/auth/password/token', [AuthController::class, 'verifyTokenForChangingPassword']);
 Route::post('/auth/password', [AuthController::class, 'changePassword']);
 Route::post('/auth/email', [AuthController::class, 'resendAuthEmail']);
+
+// 외부 로그인 연동
+Route::get('/auth/register/kakao', KakaoLoginController::class);
 
 // 토픽을 보여줌
 Route::apiResource('topics', TopicController::class)->only('index', 'show');
