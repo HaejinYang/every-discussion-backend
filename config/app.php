@@ -186,7 +186,15 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'frontend_endpoint' => env('APP_FRONTEND_ENDPOINT'),
+
     'chatgpt_key' => env('CHATGPT_KEY'),
 
-    'master_email' => env('MASTER_EMAIL')
+    'master_email' => env('MASTER_EMAIL'),
+
+    'kakao_api_key' => env('APP_KAKAO_API_KEY'),
+
+    'kakao_api_redirect_uri' => env('APP_KAKAO_REDIRECT_URI'),
+
+    'kakao_api_secret' => env('APP_KAKAO_API_SECRET'),
 ];
