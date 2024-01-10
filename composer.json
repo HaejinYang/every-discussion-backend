@@ -10,8 +10,11 @@
         "laravel/framework": "^10.10",
         "laravel/horizon": "^5.21",
         "laravel/sanctum": "^3.2",
+        "laravel/socialite": "*",
         "laravel/tinker": "^2.8",
-        "predis/predis": "^2.2"
+        "predis/predis": "^2.2",
+        "socialiteproviders/kakao": "^4.2",
+        "socialiteproviders/zoho": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",
