@@ -169,8 +169,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        SocialiteProviders\Manager\ServiceProvider::class,
     ])->toArray(),
-
+    
+    'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     /*
     |--------------------------------------------------------------------------
     | Class Aliases

@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'kakao' => [
+        'client_id' => env('APP_KAKAO_API_KEY'),
+        'client_secret' => env('APP_KAKAO_API_SECRET'),
+        'redirect' => env('APP_KAKAO_REDIRECT_URI'),
+    ]
 ];
