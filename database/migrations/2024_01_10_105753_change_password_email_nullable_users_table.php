@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('password')->nullable()->change();
+            $table->string('email')->nullable()->change();
         });
     }
 
@@ -22,6 +23,7 @@ return new class extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('password')->change();
+            $table->string('email')->change();
         });
     }
 };
