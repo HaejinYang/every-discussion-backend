@@ -28,6 +28,9 @@ Route::middleware(['auth.token', 'user.get'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::post('/auth/delete', [AuthController::class, 'delete']);
 
+    // 토큰을 통한 로그인 from OAUTH
+    Route::post('/auth/login/token', [AuthController::class, 'loginByToken']);
+
     // 유저 업데이트, 탈퇴
     Route::put('/users', [UserController::class, 'update']);
     Route::delete('/users', [UserController::class, 'destroy']);
