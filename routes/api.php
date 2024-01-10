@@ -57,8 +57,9 @@ Route::post('/auth/password/token', [AuthController::class, 'verifyTokenForChang
 Route::post('/auth/password', [AuthController::class, 'changePassword']);
 Route::post('/auth/email', [AuthController::class, 'resendAuthEmail']);
 
-// 외부 로그인 연동
-Route::get('/auth/register/kakao', KakaoLoginController::class);
+// OAUTH 연동
+Route::get('/auth/login/{provider}', [AuthController::class, 'redirectToProvider']);
+Route::get('/auth/login/{provider}/callback', [AuthController::class, 'handleProviderCallback']);
 
 // 토픽을 보여줌
 Route::apiResource('topics', TopicController::class)->only('index', 'show');
