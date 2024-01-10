@@ -12,12 +12,15 @@ use App\Mail\SendTokenForChangingPassword;
 use App\Models\Participant;
 use App\Models\User;
 use App\Util\ArrayUtil;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends ApiController
 {
@@ -164,5 +167,85 @@ class AuthController extends ApiController
         SendAuthEmail::dispatch($user->email, $user->remember_token);
 
         return $this->showMessage("재전송 성공");
+    }
+
+    /**
+     * Redirect the user to the Provider authentication page.
+     *
+     * @param $provider
+     * @return JsonResponse
+     */
+    public function redirectToProvider($provider)
+    {
+        $validated = $this->validateProvider($provider);
+        if (!is_null($validated)) {
+            return $validated;
+        }
+
+        return Socialite::driver($provider)->stateless()->redirect();
+    }
+
+    /**
+     * Obtain the user information from Provider.
+     *
+     * @param $provider
+     * @return JsonResponse
+     */
+    public function handleProviderCallback($provider)
+    {
+        $validated = $this->validateProvider($provider);
+        if (!is_null($validated)) {
+            return $validated;
+        }
+
+        try {
+            $user = Socialite::driver($provider)->stateless()->user();
+        } catch (ClientException $exception) {
+            return $this->error("Invalid credentials provided", Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        try {
+            DB::beginTransaction();
+            $userCreated = User::firstOrCreate(
+                [
+                    'name' => $user->getName()
+                ],
+                [
+                    'email' => $user->getEmail(),
+                    'email_verified_at' => now(),
+                ]
+            );
+
+            $userCreated->providers()->updateOrCreate(
+                [
+                    'provider' => $provider,
+                    'provider_id' => $user->getId(),
+                ],
+                [
+                    'avatar' => $user->getAvatar()
+                ]
+            );
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+
+        $userCreated['token'] = $userCreated->createToken('login_token')->plainTextToken;
+        $userCreated['topicsCount'] = Participant::where('id', $userCreated->id)->first()->topics()->count();
+        $userCreated['opinionsCount'] = Participant::where('id', $userCreated->id)->first()->opinions()->count();
+        $cookie = cookie('login_token', $userCreated['token'], 3600, null, null, null, false);
+
+        return redirect()->to(config('app.frontend_endpoint'), 302)->withCookie($cookie);
+    }
+
+    /**
+     * @param $provider
+     * @return JsonResponse
+     */
+    protected function validateProvider($provider)
+    {
+        if (!in_array($provider, ['kakao'])) {
+            return $this->error('Please login using facebook, github or google', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 }
