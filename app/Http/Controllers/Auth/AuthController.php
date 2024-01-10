@@ -54,7 +54,20 @@ class AuthController extends ApiController
             return $this->showMessage('login failed', Response::HTTP_UNAUTHORIZED);
         }
 
-        $user['token'] = $user->createToken('access_token')->plainTextToken;
+        $user['token'] = $user->createToken('login_token')->plainTextToken;
+        $user['topicsCount'] = Participant::where('id', $user->id)->first()->topics()->count();
+        $user['opinionsCount'] = Participant::where('id', $user->id)->first()->opinions()->count();
+
+        return $this->showOne($user);
+    }
+
+    public function loginByToken(Request $request)
+    {
+        $input = $request->input();
+        assert(ArrayUtil::existKeysStrictly(['user'], $input), '필드 확인');
+
+        $user = $input['user'];
+        $user['token'] = $user->createToken('login_token')->plainTextToken;
         $user['topicsCount'] = Participant::where('id', $user->id)->first()->topics()->count();
         $user['opinionsCount'] = Participant::where('id', $user->id)->first()->opinions()->count();
 
