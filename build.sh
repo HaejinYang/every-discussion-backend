@@ -10,3 +10,9 @@ else
     rm -f /usr/local/etc/php/conf.d/jit.ini
     cat ./.env.core ./.env.local > ./.env
 fi
+
+composer install
+
+php artisan migrate --force
+php artisan horizon &
+php artisan schedule:work &
