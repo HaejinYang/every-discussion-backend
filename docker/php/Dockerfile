@@ -10,6 +10,7 @@ RUN apt-get update && \
 
 RUN a2enmod rewrite && a2enmod ssl && a2enmod socache_shmcb
 
+# production인 경우, conf.d에 ini파일을 가져와서 덮어쓴다.
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN pecl install xdebug
 RUN pecl install redis
