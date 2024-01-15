@@ -13,8 +13,8 @@ RUN a2enmod rewrite && a2enmod ssl && a2enmod socache_shmcb
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN pecl install xdebug
 RUN pecl install redis
-RUN docker-php-ext-install pdo_mysql zip opcache curl pcntl
-RUN docker-php-ext-enable pdo_mysql zip opcache curl pcntl redis
+RUN docker-php-ext-install pdo_mysql zip curl pcntl
+RUN docker-php-ext-enable pdo_mysql zip curl pcntl redis
 COPY conf.d /usr/local/etc/php/conf.d
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
