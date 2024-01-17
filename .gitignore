@@ -25,3 +25,4 @@ mysql/
 *.pem
 *.crt
 *.key
+/preload.php
