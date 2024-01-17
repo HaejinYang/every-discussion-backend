@@ -202,4 +202,6 @@ return [
     'kakao_api_secret' => env('APP_KAKAO_API_SECRET'),
 
     'enable_debug_bar' => env('APP_ENABLE_DEBUG_BAR'),
+
+    'api_rate_limit' => env('API_RATE_LIMIT'),
 ];
