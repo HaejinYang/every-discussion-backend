@@ -170,8 +170,9 @@ return [
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
     ])->toArray(),
-    
+
     'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     /*
     |--------------------------------------------------------------------------
@@ -199,4 +200,6 @@ return [
     'kakao_api_redirect_uri' => env('APP_KAKAO_REDIRECT_URI'),
 
     'kakao_api_secret' => env('APP_KAKAO_API_SECRET'),
+
+    'enable_debug_bar' => env('APP_ENABLE_DEBUG_BAR'),
 ];
