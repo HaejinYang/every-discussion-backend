@@ -1,0 +1,1706 @@
+{
+	"info": {
+		"_postman_id": "5e9fe2e6-e7cd-4b30-98dc-d97602e056f9",
+		"name": "EveryDiscussion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11960128"
+	},
+	"item": [
+		{
+			"name": "API tests",
+			"item": [
+				{
+					"name": "topics",
+					"item": [
+						{
+							"name": "api/topics",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/topics?keyword=",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"topics"
+									],
+									"query": [
+										{
+											"key": "keyword",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/topics/{id}",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/topics/1",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"topics",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/topics?keyword=",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/topics?keyword=",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"topics"
+									],
+									"query": [
+										{
+											"key": "keyword",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/topics",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"\",\r\n    \"description\": \"fefgh\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/topics",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"topics"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "opinions",
+					"item": [
+						{
+							"name": "api/opinions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"topicId\": 1,\r\n    \"title\": \"title abc\",\r\n    \"content\": \"contentabccontent\",\r\n    \"agreeingType\": \"agree\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/opinions",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"opinions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/opinions Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"topicId\": 1,\r\n    \"title\": \"title abc\",\r\n    \"content\": \"contentabccontent\",\r\n    \"agreeingType\": \"agree\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/opinions",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"opinions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/opinions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\" : \"12312312adasd3\",\r\n    \"content\" : \"SOLID : S 단일책임, 확장엔 열려있고 수정엔 닫혀있고, 리스코프 치환 상위클래스는 하위클래스로 대체 가능해야함. 거대한 인터페이스보다 서다른 역할의 인터페이스 여러개가 낫다.D. 추상화에 의존하고 구체화에 의존해선 안된다.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/opinions/232",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"opinions",
+										"232"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/opinions/{id}",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"topicId\": 1,\r\n    \"title\": \"title abc\",\r\n    \"content\": \"content abc\",\r\n    \"agreeingType\": \"agree\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/opinions/1",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"opinions",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/opinions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"12341234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/opinions/3",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"opinions",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "topics/id/opinions",
+					"item": [
+						{
+							"name": "api/topics/{id}/opinions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/topics/1/opinions",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"topics",
+										"1",
+										"opinions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/topics/{id}/opinions?keyword=",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/topics/1/opinions?keyword=a",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"topics",
+										"1",
+										"opinions"
+									],
+									"query": [
+										{
+											"key": "keyword",
+											"value": "a"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "api/users/{userID}/topics/{topicId}/opinions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/2/topics/1/opinions",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"2",
+										"topics",
+										"1",
+										"opinions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/users/{userId}/topics",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users/1/topics",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"1",
+										"topics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"해진양123\",\r\n    \"password\" : \"12341234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/user",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"12341234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/user",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "api/auth/register",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\" : \"abcd1@gmal.com\",\r\n    \"name\" : \"안녕하세요1\",\r\n    \"password\" : \"12341234\",\r\n    \"password_confirmation\" : \"12341234\",\r\n    \"extra\": \"abcd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/auth/register",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/auth/login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if(pm.response.code === 200) {\r",
+											"    pm.globals.set('SANCTUM_TOKEN', pm.response.json().data.token);\r",
+											"}\r",
+											"\r",
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티가 존재해야함\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"email 프로퍼티가 요청의 email과 동일해야함\", () => {\r",
+											"    const reuqestEmail = pm.globals.get('USECASE_LOGIN_USER_MEAIL');\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect(body.data.email).to.equals(reuqestEmail);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\" : \"ellen83@example.org\",\r\n    \"password\" : \"12341234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/auth/login",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/auth/logout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/auth/logout",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/auth/delete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\" : \"123412343\",\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/auth/delete",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/auth/duplicated",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/auth/check-duplicated?email=abcdae@gmal.com",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"check-duplicated"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "abcdae@gmal.com"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/auth/email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\" : \"123412343\",\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/auth/email?name=aabbcccc",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"email"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "aabbcccc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/auth/password/token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\" : \"123412343\",\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/auth/password/token?email=aabbcccddc@gmail.com",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"password",
+										"token"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "aabbcccddc@gmail.com"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Usecase tests",
+			"item": [
+				{
+					"name": "login_success",
+					"item": [
+						{
+							"name": "api/auth/login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if(pm.response.code === 200) {\r",
+											"    pm.globals.set('SANCTUM_TOKEN', pm.response.json().data.token);\r",
+											"}\r",
+											"\r",
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티가 존재해야함\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"email 프로퍼티가 요청의 email과 동일해야함\", () => {\r",
+											"    const reuqestEmail = pm.globals.get('USECASE_LOGIN_USER_EMAIL');\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect(body.data.email).to.equals(reuqestEmail);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\" : \"{{USECASE_LOGIN_USER_EMAIL}}\",\r\n    \"password\" : \"{{USECASE_LOGIN_USER_PASSWORD}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/auth/login",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/auth/logout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티가 존재해야함\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"email 프로퍼티가 요청과 동일해야함\", () => {\r",
+											"    const requestEmail = pm.globals.get('USECASE_LOGIN_USER_EMAIL');\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect(body.data.email).to.equals(requestEmail);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/auth/logout",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "login_failed",
+					"item": [
+						{
+							"name": "api/auth/login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 400~499\", () => {\r",
+											"    const code = pm.response.code;\r",
+											"    pm.expect(code).to.be.above(399);\r",
+											"    pm.expect(code).to.be.below(500);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"code 프로퍼티도 400~499\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect(body.code).to.be.above(399);\r",
+											"    pm.expect(body.code).to.be.below(500);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"error 프로퍼티가 존재해야함\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('error' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\" : \"1234\",\r\n    \"password\" : \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/auth/login",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/auth/logout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 401\", () => {\r",
+											"    pm.expect(pm.response.code).to.equals(401);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"code 프로퍼티도 401\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect(body.code).to.equals(401);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"error 프로퍼티가 존재해야함\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('error' in body).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/auth/logout",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "topic_get",
+					"item": [
+						{
+							"name": "api/topics",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 있어야함\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"페이징 관련 프로퍼티가 있어야함\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('current_page' in body.data && \r",
+											"    'data' in body.data && \r",
+											"    'current_page' in body.data &&\r",
+											"    'first_page_url' in body.data &&\r",
+											"    'from' in body.data &&\r",
+											"    'next_page_url' in body.data &&\r",
+											"    'path' in body.data && \r",
+											"    'per_page' in body.data &&\r",
+											"    'prev_page_url' in body.data &&\r",
+											"    'to' in body.data\r",
+											"    ).to.equals(true);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/topics?keyword=",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"topics"
+									],
+									"query": [
+										{
+											"key": "keyword",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/topics/{id}",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 있어야함\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"id 프로퍼티가 요청과 동일해야함\", () => {\r",
+											"    const requestId = pm.globals.get('USECASE_TOPIC_ID');\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect(body.data.id).to.equals(parseInt(requestId));\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/topics/{{USECASE_TOPIC_ID}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"topics",
+										"{{USECASE_TOPIC_ID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "topic_create",
+					"item": [
+						{
+							"name": "api/auth/login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if(pm.response.code === 200) {\r",
+											"    pm.globals.set('SANCTUM_TOKEN', pm.response.json().data.token);\r",
+											"}\r",
+											"\r",
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티가 존재해야함\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"email 프로퍼티가 요청의 email과 동일해야함\", () => {\r",
+											"    const reuqestEmail = pm.globals.get('USECASE_LOGIN_USER_EMAIL');\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect(body.data.email).to.equals(reuqestEmail);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\" : \"{{USECASE_LOGIN_USER_EMAIL}}\",\r\n    \"password\" : \"{{USECASE_LOGIN_USER_PASSWORD}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/auth/login",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/topics",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티 확인\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"요청한 타이틀, 디스크립션 그대로 응답이 와야함.\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"\r",
+											"    const expectTitle = pm.globals.get('USECASE_TOPIC_TITLE');\r",
+											"    const expectDesc =  pm.globals.get('USECASE_TOPIC_DESCRIPTION');\r",
+											"\r",
+											"    pm.expect(body.data.title).to.equals(expectTitle);\r",
+											"    pm.expect(body.data.description).to.equals(expectDesc);\r",
+											"});\r",
+											"\r",
+											"if(pm.response.code === 200) {\r",
+											"    let titleToken = pm.response.json().data.title.split(\"_\");\r",
+											"    titleToken[2] = parseInt(titleToken[2]) + 1;\r",
+											"    const nextTitle = titleToken[2].join(\"_\");\r",
+											"    pm.globals.set('USECASE_TOPIC_TITLE', nextTitle);\r",
+											"\r",
+											"    let descToken = pm.response.json().data.description.split(\"_\");\r",
+											"    descToken[2] = parseInt(descToken[2]) + 1;\r",
+											"    const nextDesc = descToken[2].join(\"_\");\r",
+											"    pm.globals.set('USECASE_TOPIC_DESCRIPTION', nextDesc);\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"{{USECASE_TOPIC_TITLE}}\",\r\n    \"description\": \"{{USECASE_TOPIC_DESCRIPTION}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/topics",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"topics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/auth/logout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"응답 코드 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"data 프로퍼티가 존재해야함\", () => {\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect('data' in body).to.equals(true);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"email 프로퍼티가 요청과 동일해야함\", () => {\r",
+											"    const requestEmail = pm.globals.get('USECASE_LOGIN_USER_EMAIL');\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect(body.data.email).to.equals(requestEmail);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/auth/logout",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "environment",
+			"value": ""
+		},
+		{
+			"key": "url",
+			"value": ""
+		}
+	]
+}
