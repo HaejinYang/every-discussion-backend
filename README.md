@@ -19,7 +19,7 @@
 
 # 개요
 
-토론 웹 서비스 모두의 토론의 백엔드 레포지토리이다. [실행링크](https://www.every-discussion.com:56003/)
+토론 웹 서비스 모두의 토론의 백엔드 레포지토리이다. [실행링크](https://www.every-discussion.com/)
 
 [프론트엔드 바로가기](https://github.com/HaejinYang/every-discussion-frontend)
 
