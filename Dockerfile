@@ -6,7 +6,12 @@ RUN apt-get update && \
     libzip-dev \
     zip \
     curl \
-    libcurl4-openssl-dev
+    libcurl4-openssl-dev \
+    vim \
+    cron \
+    logrotate \
+    certbot  \
+    python3-certbot-apache
 
 RUN a2enmod rewrite && a2enmod ssl && a2enmod socache_shmcb
 
@@ -16,7 +21,15 @@ RUN pecl install xdebug
 RUN pecl install redis
 RUN docker-php-ext-install pdo_mysql zip curl pcntl
 RUN docker-php-ext-enable pdo_mysql zip curl pcntl redis
-COPY conf.d /usr/local/etc/php/conf.d
+
+# 컨테이너 안에서 사용할 설정 복사
+COPY ./docker/cron.d /etc/cron.d
+COPY ./docker/logrotate.d /etc/logrotate.d
+COPY ./docker/php/conf.d /usr/local/etc/php/conf.d
+
+# 퍼미션 변경
+RUN chmod -R 644 /etc/cron.d
+RUN chmod -R 644 /etc/logrotate.d
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
