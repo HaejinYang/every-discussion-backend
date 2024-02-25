@@ -1,14 +1,14 @@
 version: "1"
 services:
     webserver:
-        build: docker/php
+        build: .
         ports:
             - "0.0.0.0:${APP_PORT_SSL}:443"
             - "0.0.0.0:80:80"
         volumes:
             - .:/var/www/html
             - /var/www/html/vendor
-            - ./docker/ssl:/etc/ssl/docker
+            - ./docker/ssl:/etc/letsencrypt/live
         command: sh -c "./build.sh && apachectl -D FOREGROUND"
         restart: always
         depends_on:
