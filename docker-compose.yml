@@ -9,6 +9,7 @@ services:
             - .:/var/www/html
             - /var/www/html/vendor
             - ./docker/ssl:/etc/letsencrypt/live
+            - ./docker/log:/var/log/apache2/
         command: sh -c "./build.sh && apachectl -D FOREGROUND"
         restart: always
         depends_on:

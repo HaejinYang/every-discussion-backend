@@ -26,3 +26,6 @@ mysql/
 *.crt
 *.key
 /preload.php
+
+
+docker/log/*.log
