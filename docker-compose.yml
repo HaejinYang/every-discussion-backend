@@ -8,7 +8,8 @@ services:
         volumes:
             - .:/var/www/html
             - /var/www/html/vendor
-            - ./docker/ssl:/etc/letsencrypt/live
+            - ./docker/log:/var/log/apache2/
+            - ./docker/letsencrypt:/etc/letsencrypt
         command: sh -c "./build.sh && apachectl -D FOREGROUND"
         restart: always
         depends_on:

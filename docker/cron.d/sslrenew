@@ -1,0 +1,1 @@
+0 0 * * 1 root certbot renew >> /var/log/certbot-renew.log 2>&1

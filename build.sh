@@ -18,3 +18,5 @@ composer install
 php artisan migrate --force
 php artisan horizon &
 php artisan schedule:work &
+
+service cron start
